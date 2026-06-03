@@ -1,0 +1,265 @@
+{
+  "dataset_records": 5200,
+  "personas": [
+    {
+      "persona": "Priya",
+      "generation_time_sec": 1.9985,
+      "diversity_score": 100.0,
+      "benchmarks": {
+        "safe_filter_seconds": 1.0991,
+        "total_records": 5200,
+        "safe_records": 2816,
+        "excluded_records": 2384,
+        "bloom_filter_hashes": 6,
+        "bloom_filter_bits": 95,
+        "embedding_seconds": 0.0024,
+        "embedding_dimensions": 160,
+        "index_build_seconds": 0.9679,
+        "candidate_vectors_scored": 2816,
+        "ranking_seconds": 0.887,
+        "total_generation_seconds": 1.9985,
+        "techniques": [
+          "Bloom filter allergen sketching",
+          "Dense hashed embeddings",
+          "Multi-stage recommendation ranking"
+        ]
+      },
+      "capability_checks": [
+        {
+          "capability": "Clinical Condition Filtering",
+          "status": "PASS",
+          "evidence": "21 selected meals rechecked against condition rules; 0 violations."
+        },
+        {
+          "capability": "Allergy Detection & Exclusion",
+          "status": "PASS",
+          "evidence": "Bloom pre-screen plus exact allergen/cross-contamination exclusion used before ranking."
+        },
+        {
+          "capability": "Dietary Preference Handling",
+          "status": "PASS",
+          "evidence": "Generated for vegetarian; cultural constraints: none."
+        },
+        {
+          "capability": "Diversity Engine",
+          "status": "PASS",
+          "evidence": "Diversity score 100.0/100; no repeated meal IDs: True; no repeated base dishes: True."
+        },
+        {
+          "capability": "Macro & Micronutrient Analysis",
+          "status": "PASS",
+          "evidence": "Daily macro/micro totals computed and compared to RDA/AI references; low nutrients are explicitly flagged."
+        },
+        {
+          "capability": "Sub-60-Second Generation",
+          "status": "PASS",
+          "evidence": "Generation completed in 1.998 seconds over 5200 offline records."
+        }
+      ],
+      "daily_warnings": {
+        "1": [],
+        "2": [],
+        "3": [],
+        "4": [],
+        "5": [],
+        "6": [],
+        "7": []
+      }
+    },
+    {
+      "persona": "Ravi",
+      "generation_time_sec": 3.0891,
+      "diversity_score": 100.0,
+      "benchmarks": {
+        "safe_filter_seconds": 0.6304,
+        "total_records": 5200,
+        "safe_records": 4150,
+        "excluded_records": 1050,
+        "bloom_filter_hashes": 6,
+        "bloom_filter_bits": 76,
+        "embedding_seconds": 0.0037,
+        "embedding_dimensions": 160,
+        "index_build_seconds": 0.9679,
+        "candidate_vectors_scored": 4150,
+        "ranking_seconds": 2.4442,
+        "total_generation_seconds": 3.0891,
+        "techniques": [
+          "Bloom filter allergen sketching",
+          "Dense hashed embeddings",
+          "Multi-stage recommendation ranking"
+        ]
+      },
+      "capability_checks": [
+        {
+          "capability": "Clinical Condition Filtering",
+          "status": "PASS",
+          "evidence": "21 selected meals rechecked against condition rules; 0 violations."
+        },
+        {
+          "capability": "Allergy Detection & Exclusion",
+          "status": "PASS",
+          "evidence": "Bloom pre-screen plus exact allergen/cross-contamination exclusion used before ranking."
+        },
+        {
+          "capability": "Dietary Preference Handling",
+          "status": "PASS",
+          "evidence": "Generated for non vegetarian; cultural constraints: no pork."
+        },
+        {
+          "capability": "Diversity Engine",
+          "status": "PASS",
+          "evidence": "Diversity score 100.0/100; no repeated meal IDs: True; no repeated base dishes: True."
+        },
+        {
+          "capability": "Macro & Micronutrient Analysis",
+          "status": "PASS",
+          "evidence": "Daily macro/micro totals computed and compared to RDA/AI references; low nutrients are explicitly flagged."
+        },
+        {
+          "capability": "Sub-60-Second Generation",
+          "status": "PASS",
+          "evidence": "Generation completed in 3.089 seconds over 5200 offline records."
+        }
+      ],
+      "daily_warnings": {
+        "1": [],
+        "2": [],
+        "3": [],
+        "4": [],
+        "5": [],
+        "6": [],
+        "7": []
+      }
+    },
+    {
+      "persona": "Mei",
+      "generation_time_sec": 2.5753,
+      "diversity_score": 100.0,
+      "benchmarks": {
+        "safe_filter_seconds": 1.7205,
+        "total_records": 5200,
+        "safe_records": 2366,
+        "excluded_records": 2834,
+        "bloom_filter_hashes": 6,
+        "bloom_filter_bits": 134,
+        "embedding_seconds": 0.0033,
+        "embedding_dimensions": 160,
+        "index_build_seconds": 0.9679,
+        "candidate_vectors_scored": 2366,
+        "ranking_seconds": 0.8417,
+        "total_generation_seconds": 2.5753,
+        "techniques": [
+          "Bloom filter allergen sketching",
+          "Dense hashed embeddings",
+          "Multi-stage recommendation ranking"
+        ]
+      },
+      "capability_checks": [
+        {
+          "capability": "Clinical Condition Filtering",
+          "status": "PASS",
+          "evidence": "21 selected meals rechecked against condition rules; 0 violations."
+        },
+        {
+          "capability": "Allergy Detection & Exclusion",
+          "status": "PASS",
+          "evidence": "Bloom pre-screen plus exact allergen/cross-contamination exclusion used before ranking."
+        },
+        {
+          "capability": "Dietary Preference Handling",
+          "status": "PASS",
+          "evidence": "Generated for vegan; cultural constraints: none."
+        },
+        {
+          "capability": "Diversity Engine",
+          "status": "PASS",
+          "evidence": "Diversity score 100.0/100; no repeated meal IDs: True; no repeated base dishes: True."
+        },
+        {
+          "capability": "Macro & Micronutrient Analysis",
+          "status": "PASS",
+          "evidence": "Daily macro/micro totals computed and compared to RDA/AI references; low nutrients are explicitly flagged."
+        },
+        {
+          "capability": "Sub-60-Second Generation",
+          "status": "PASS",
+          "evidence": "Generation completed in 2.575 seconds over 5200 offline records."
+        }
+      ],
+      "daily_warnings": {
+        "1": [],
+        "2": [],
+        "3": [],
+        "4": [],
+        "5": [],
+        "6": [],
+        "7": []
+      }
+    },
+    {
+      "persona": "James",
+      "generation_time_sec": 2.2926,
+      "diversity_score": 100.0,
+      "benchmarks": {
+        "safe_filter_seconds": 0.8344,
+        "total_records": 5200,
+        "safe_records": 3635,
+        "excluded_records": 1565,
+        "bloom_filter_hashes": 6,
+        "bloom_filter_bits": 95,
+        "embedding_seconds": 0.0025,
+        "embedding_dimensions": 160,
+        "index_build_seconds": 0.9679,
+        "candidate_vectors_scored": 3635,
+        "ranking_seconds": 1.4458,
+        "total_generation_seconds": 2.2926,
+        "techniques": [
+          "Bloom filter allergen sketching",
+          "Dense hashed embeddings",
+          "Multi-stage recommendation ranking"
+        ]
+      },
+      "capability_checks": [
+        {
+          "capability": "Clinical Condition Filtering",
+          "status": "PASS",
+          "evidence": "21 selected meals rechecked against condition rules; 0 violations."
+        },
+        {
+          "capability": "Allergy Detection & Exclusion",
+          "status": "PASS",
+          "evidence": "Bloom pre-screen plus exact allergen/cross-contamination exclusion used before ranking."
+        },
+        {
+          "capability": "Dietary Preference Handling",
+          "status": "PASS",
+          "evidence": "Generated for pescatarian; cultural constraints: none."
+        },
+        {
+          "capability": "Diversity Engine",
+          "status": "PASS",
+          "evidence": "Diversity score 100.0/100; no repeated meal IDs: True; no repeated base dishes: True."
+        },
+        {
+          "capability": "Macro & Micronutrient Analysis",
+          "status": "PASS",
+          "evidence": "Daily macro/micro totals computed and compared to RDA/AI references; low nutrients are explicitly flagged."
+        },
+        {
+          "capability": "Sub-60-Second Generation",
+          "status": "PASS",
+          "evidence": "Generation completed in 2.293 seconds over 5200 offline records."
+        }
+      ],
+      "daily_warnings": {
+        "1": [],
+        "2": [],
+        "3": [],
+        "4": [],
+        "5": [],
+        "6": [],
+        "7": []
+      }
+    }
+  ]
+}

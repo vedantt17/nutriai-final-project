@@ -1,0 +1,48 @@
+{
+  "sources": {
+    "USDA FoodData Central API": "https://fdc.nal.usda.gov/api-guide/",
+    "NIH Office of Dietary Supplements nutrient recommendations": "https://ods.od.nih.gov/HealthInformation/nutrientrecommendations.aspx",
+    "NHLBI DASH eating plan": "https://www.nhlbi.nih.gov/education/dash-eating-plan",
+    "NIDDK GERD eating guidance": "https://www.niddk.nih.gov/health-information/digestive-diseases/acid-reflux-ger-gerd-adults/eating-diet-nutrition",
+    "Monash University Low FODMAP program": "https://www.monashfodmap.com/"
+  },
+  "clinical_rules": {
+    "IBS": {
+      "exclude_fodmap_level": "high",
+      "examples": [
+        "garlic",
+        "onion",
+        "wheat"
+      ]
+    },
+    "GERD": {
+      "exclude_acidity_level": "high",
+      "examples": [
+        "citrus",
+        "tomato",
+        "fried foods",
+        "caffeine",
+        "chocolate",
+        "spicy foods"
+      ]
+    },
+    "Type 2 Diabetes": {
+      "max_glycemic_index": 55,
+      "exclude_flags": [
+        "added sugar",
+        "high gi"
+      ]
+    },
+    "Hypertension": {
+      "meal_sodium_soft_cap_mg": 760,
+      "daily_sodium_cap_mg": 2300,
+      "dash_focus": [
+        "potassium",
+        "magnesium",
+        "calcium",
+        "fiber"
+      ]
+    }
+  },
+  "disclaimer": "Educational project only. It is not medical advice and does not replace clinician or registered dietitian guidance."
+}
