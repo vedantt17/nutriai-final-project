@@ -9,7 +9,7 @@ from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = PROJECT_ROOT / "data"
-TARGET_RECORD_COUNT = 10000
+TARGET_RECORD_COUNT = 10750
 
 
 NUTRIENT_FIELDS = [

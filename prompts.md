@@ -57,7 +57,7 @@ Update the generated meal candidate table so each row includes provenance fields
 - `source_confidence`
 - `source_note`
 
-Add a Streamlit Sources tab that transparently shows source inventory, USDA cache coverage, runtime API behavior, deduplication metrics, and limitations. Be honest that the final 10,000 meal candidates are deterministic recipe-template records linked to USDA references where available.
+Add a Streamlit Sources tab that transparently shows source inventory, USDA cache coverage, runtime API behavior, deduplication metrics, and limitations. Be honest that the final 10,750 meal candidates are deterministic recipe-template records linked to USDA references where available.
 ```
 
 This prompt was used to add the USDA ingestion script, source inventory, provenance files, source columns in the dataset, and the Sources tab.
@@ -90,7 +90,7 @@ This prompt produced the safety approach implemented in `code/nutriai/rules.py` 
 Implement the NutriAI meal recommender as a multi-stage ranking pipeline.
 
 The pipeline should:
-1. Load the 10,000-record meal candidate table.
+1. Load the 10,750-record meal candidate table.
 2. Apply the clinical, allergen, diet, cultural, and cross-contamination hard filters.
 3. Embed the user's profile text and each meal candidate using deterministic hashed embeddings.
 4. Score safe candidates using calorie fit, micronutrient fit, clinical fit, profile similarity, and diversity.

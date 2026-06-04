@@ -158,7 +158,7 @@ def build_pdf():
     story.append(Spacer(1, 8))
     story.append(
         para(
-            "The implementation intentionally avoids heavyweight infrastructure in the live demo path. The app still demonstrates big-data patterns by scanning a 10,000-row deduplicated offline snapshot, sketching allergen membership, embedding candidate text, and ranking thousands of safe records per profile.",
+            "The implementation intentionally avoids heavyweight infrastructure in the live demo path. The app still demonstrates big-data patterns by scanning a 10,750-row deduplicated offline snapshot, sketching allergen membership, embedding candidate text, and ranking thousands of safe records per profile.",
             styles["BriefBody"],
         )
     )
