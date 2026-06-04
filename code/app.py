@@ -978,9 +978,6 @@ def render_explain(result):
                 "Menu item": meal.base_name,
                 "Why selected": meal.why_selected,
                 "Ingredients": meal.ingredients,
-                "Nutrition source": getattr(meal, "nutrition_source", ""),
-                "USDA refs": getattr(meal, "nutrition_source_ids", ""),
-                "Rule matches": getattr(meal, "source_rule_matches", ""),
             }
         )
     section_heading("Selected meal explanations", "Ranking factors for every meal in the current plan.")
