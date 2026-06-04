@@ -80,6 +80,10 @@ class MealSelection:
     why_selected: str
     nutrients: dict[str, float]
     ingredients: str
+    nutrition_source: str = ""
+    nutrition_source_ids: str = ""
+    clinical_rule_sources: str = ""
+    source_rule_matches: str = ""
 
 
 @dataclass

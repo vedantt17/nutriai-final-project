@@ -12,7 +12,7 @@ Use these values when creating the app:
 - Python dependencies: `code/requirements.txt`
 - Secrets: none required
 
-The app uses the offline files in `data/`, so no API keys, database credentials, or cloud storage setup are required.
+The app uses the committed offline files in `data/`, including the USDA reference cache and source lookup CSVs, so no API keys, database credentials, or cloud storage setup are required at runtime.
 
 ## Deployment Steps
 
@@ -32,6 +32,7 @@ After the public app opens:
 - Generate the default plan.
 - Confirm the 7-day plan table loads.
 - Hover the weekly macro donut chart and confirm the tooltip appears.
+- Open the `Sources` tab and confirm the source inventory table loads.
 - Open the `Personas` tab and run required persona tests.
 
 ## Local Command

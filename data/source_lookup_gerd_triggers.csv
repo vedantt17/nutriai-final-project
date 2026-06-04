@@ -1,0 +1,7 @@
+trigger_pattern,acidity_level,rule_action,source_name,source_url,directness,notes
+tomato,high,exclude for GERD/acidity,NutriAI internal low-acid rule map,,internal rule table for the rubric's low-acid constraint,Course source list does not provide a GERD API; this rule is not claimed as an external dataset.
+citrus,high,exclude for GERD/acidity,NutriAI internal low-acid rule map,,internal rule table for the rubric's low-acid constraint,"Covers lime, orange, lemon, and citrus salsa."
+chocolate,high,exclude for GERD/acidity,NutriAI internal low-acid rule map,,internal rule table for the rubric's low-acid constraint,Reserved for future recipe expansion.
+coffee,high,exclude for GERD/acidity,NutriAI internal low-acid rule map,,internal rule table for the rubric's low-acid constraint,Reserved for future recipe expansion.
+high-fat foods,high,exclude for GERD/acidity when flagged,NutriAI internal low-acid rule map,,internal rule table for the rubric's low-acid constraint,Used with fried/high-fat templates.
+spicy foods,high,exclude for GERD/acidity when flagged,NutriAI internal low-acid rule map,,internal rule table for the rubric's low-acid constraint,Used with salsa/spicy flags.

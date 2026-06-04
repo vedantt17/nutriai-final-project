@@ -1,0 +1,10 @@
+allergen_category,ingredient_patterns,app_column,source_name,source_url,directness,notes
+milk/dairy,milk; cheese; yogurt; paneer; dairy,contains_dairy,NutriAI internal allergen keyword map,,internal rule table for user-declared allergen exclusion,Matches user-declared allergens against USDA/meal ingredient terms.
+eggs,egg; eggs,contains_eggs,NutriAI internal allergen keyword map,,internal rule table for user-declared allergen exclusion,Hard exclusion when user declares egg allergy.
+fish,salmon; cod; tuna; trout; fish,contains_fish,NutriAI internal allergen keyword map,,internal rule table for user-declared allergen exclusion,Available for future user allergy input and pescatarian rules.
+shellfish,shrimp; crab; lobster; prawn; shellfish,contains_shellfish,NutriAI internal allergen keyword map,,internal rule table for user-declared allergen exclusion,Hard exclusion when user declares shellfish.
+tree nuts,almond; almonds; cashew; walnut; pistachio; pecan,contains_tree_nuts,NutriAI internal allergen keyword map,,internal rule table for user-declared allergen exclusion,Hard exclusion and strict cross-contact option.
+peanuts,peanut; peanut butter,contains_peanuts,NutriAI internal allergen keyword map,,internal rule table for user-declared allergen exclusion,Hard exclusion when user declares peanuts.
+wheat/gluten,wheat; wheat pasta; wheat tortilla; wheat pita; barley; rye; gluten,contains_gluten,NutriAI internal allergen keyword map,,internal rule table for user-declared allergen exclusion,Mapped to gluten/wheat exclusion.
+soy,soy; tofu; tempeh; edamame; soy sauce,contains_soy,NutriAI internal allergen keyword map,,internal rule table for user-declared allergen exclusion,Hard exclusion when user declares soy.
+sesame,sesame; tahini,contains_sesame,NutriAI internal allergen keyword map,,internal rule table for user-declared allergen exclusion,Hard exclusion when user declares sesame.

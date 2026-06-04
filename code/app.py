@@ -613,6 +613,24 @@ def load_planner() -> NutriAIPlanner:
     return NutriAIPlanner(project_root=PROJECT_ROOT)
 
 
+@st.cache_data(show_spinner=False)
+def load_source_inventory() -> pd.DataFrame:
+    path = PROJECT_ROOT / "data" / "source_inventory.csv"
+    if not path.exists():
+        return pd.DataFrame()
+    return pd.read_csv(path)
+
+
+@st.cache_data(show_spinner=False)
+def load_usda_reference_summary() -> dict[str, int]:
+    path = PROJECT_ROOT / "data" / "usda_fooddata_reference.csv"
+    if not path.exists():
+        return {"rows": 0, "api_matches": 0}
+    data = pd.read_csv(path)
+    matches = data.get("source_status", pd.Series(dtype=str)).astype(str).eq("api_match").sum()
+    return {"rows": int(len(data)), "api_matches": int(matches)}
+
+
 def _safe_text(value: object) -> str:
     return escape(str(value or ""))
 
@@ -723,7 +741,7 @@ def profile_form() -> UserProfile:
             diet_modes,
             index=diet_modes.index(default.diet_mode) if default.diet_mode in diet_modes else 0,
         )
-        allergy_options = ["lactose", "dairy", "gluten", "tree nuts", "shellfish", "soy", "eggs"]
+        allergy_options = ["lactose", "dairy", "gluten", "tree nuts", "peanuts", "shellfish", "soy", "sesame", "eggs"]
         allergies = st.multiselect("Allergies / intolerances", allergy_options, default=list(default.allergies))
         condition_options = ["IBS", "GERD", "type 2 diabetes", "hypertension"]
         conditions = st.multiselect("Clinical conditions", condition_options, default=list(default.conditions))
@@ -960,6 +978,9 @@ def render_explain(result):
                 "Menu item": meal.base_name,
                 "Why selected": meal.why_selected,
                 "Ingredients": meal.ingredients,
+                "Nutrition source": meal.nutrition_source,
+                "USDA refs": meal.nutrition_source_ids,
+                "Rule matches": meal.source_rule_matches,
             }
         )
     section_heading("Selected meal explanations", "Ranking factors for every meal in the current plan.")
@@ -987,6 +1008,39 @@ def render_benchmarks(result):
     st.dataframe(pd.DataFrame(benchmark_rows), hide_index=True, use_container_width=True, height=270)
     technique_pills = "".join(f'<span class="nutri-pill">{_safe_text(item)}</span>' for item in result.benchmarks.get("techniques", []))
     st.markdown(f'<div class="nutri-pill-row">{technique_pills}</div>', unsafe_allow_html=True)
+
+
+def render_sources():
+    section_heading(
+        "Source provenance",
+        "Local source-reference files used by the offline planner; no live API call is required while using the app.",
+    )
+    summary = load_usda_reference_summary()
+    source_metrics = [
+        {"Metric": "USDA ingredient reference rows", "Value": f"{summary['rows']:,}"},
+        {"Metric": "USDA API matches in cache", "Value": f"{summary['api_matches']:,}"},
+        {"Metric": "Runtime external API calls", "Value": "0"},
+        {"Metric": "Meal candidates", "Value": "5,200 deterministic records"},
+    ]
+    st.dataframe(pd.DataFrame(source_metrics), hide_index=True, use_container_width=True, height=180)
+
+    inventory = load_source_inventory()
+    if inventory.empty:
+        st.info("Source inventory has not been generated yet. Run scripts/build_source_reference_data.py.")
+        return
+
+    display = inventory.rename(
+        columns={
+            "source_name": "Source",
+            "url": "URL",
+            "local_file": "Local file",
+            "used_for": "Used for",
+            "incorporation_type": "Incorporation",
+            "runtime_requirement": "Runtime",
+            "caveat": "Caveat",
+        }
+    )
+    st.dataframe(display, hide_index=True, use_container_width=True, height=360)
 
 
 def render_persona_tests(planner: NutriAIPlanner):
@@ -1035,7 +1089,7 @@ def main():
     render_metrics(result)
     render_status_chips(result)
 
-    tabs = st.tabs(["Plan", "Nutrients", "Explain", "Benchmarks", "Personas"])
+    tabs = st.tabs(["Plan", "Nutrients", "Explain", "Benchmarks", "Sources", "Personas"])
     with tabs[0]:
         render_plan(result)
     with tabs[1]:
@@ -1045,6 +1099,8 @@ def main():
     with tabs[3]:
         render_benchmarks(result)
     with tabs[4]:
+        render_sources()
+    with tabs[5]:
         render_persona_tests(planner)
 
 

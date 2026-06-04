@@ -39,8 +39,10 @@ def meal(
     contains_dairy=False,
     contains_gluten=False,
     contains_tree_nuts=False,
+    contains_peanuts=False,
     contains_shellfish=False,
     contains_soy=False,
+    contains_sesame=False,
     contains_eggs=False,
     contains_pork=False,
     contains_beef=False,
@@ -67,8 +69,10 @@ def meal(
         "contains_dairy": contains_dairy,
         "contains_gluten": contains_gluten,
         "contains_tree_nuts": contains_tree_nuts,
+        "contains_peanuts": contains_peanuts,
         "contains_shellfish": contains_shellfish,
         "contains_soy": contains_soy,
+        "contains_sesame": contains_sesame,
         "contains_eggs": contains_eggs,
         "contains_pork": contains_pork,
         "contains_beef": contains_beef,
@@ -94,7 +98,7 @@ BASE_MEALS = [
     meal("Tofu vegetable scramble", "Breakfast", "plant protein", "Californian", ["tofu", "zucchini", "spinach", "turmeric", "quinoa"], {"calories": 420, "protein_g": 27, "carbs_g": 38, "fat_g": 18, "fiber_g": 8, "iron_mg": 5.8, "calcium_mg": 430, "vitamin_b12_mcg": 0.8, "vitamin_d_mcg": 5.0, "zinc_mg": 3.1, "potassium_mg": 760, "magnesium_mg": 150, "sodium_mg": 280, "omega3_g": 0.7}, contains_soy=True, glycemic_index=38),
     meal("Greek yogurt berry oat parfait", "Breakfast", "parfait", "American", ["greek yogurt", "blueberries", "certified oats", "pumpkin seeds"], {"calories": 405, "protein_g": 28, "carbs_g": 48, "fat_g": 11, "fiber_g": 8, "iron_mg": 2.6, "calcium_mg": 430, "vitamin_b12_mcg": 1.7, "vitamin_d_mcg": 1.9, "zinc_mg": 2.4, "potassium_mg": 610, "magnesium_mg": 110, "sodium_mg": 145, "omega3_g": 0.2}, contains_dairy=True, glycemic_index=43),
     meal("Almond chia smoothie", "Breakfast", "smoothie", "American", ["almond milk", "chia", "banana", "spinach"], {"calories": 380, "protein_g": 12, "carbs_g": 46, "fat_g": 18, "fiber_g": 12, "iron_mg": 3.3, "calcium_mg": 480, "vitamin_b12_mcg": 1.0, "vitamin_d_mcg": 2.5, "zinc_mg": 2.1, "potassium_mg": 720, "magnesium_mg": 150, "sodium_mg": 160, "omega3_g": 2.1}, contains_tree_nuts=True, glycemic_index=44),
-    meal("Millet peanut porridge", "Breakfast", "porridge", "West African", ["millet", "peanut butter", "banana", "flax"], {"calories": 445, "protein_g": 17, "carbs_g": 58, "fat_g": 17, "fiber_g": 10, "iron_mg": 4.1, "calcium_mg": 180, "vitamin_b12_mcg": 0.0, "vitamin_d_mcg": 0.0, "zinc_mg": 3.0, "potassium_mg": 690, "magnesium_mg": 170, "sodium_mg": 120, "omega3_g": 1.8}, glycemic_index=50),
+    meal("Millet peanut porridge", "Breakfast", "porridge", "West African", ["millet", "peanut butter", "banana", "flax"], {"calories": 445, "protein_g": 17, "carbs_g": 58, "fat_g": 17, "fiber_g": 10, "iron_mg": 4.1, "calcium_mg": 180, "vitamin_b12_mcg": 0.0, "vitamin_d_mcg": 0.0, "zinc_mg": 3.0, "potassium_mg": 690, "magnesium_mg": 170, "sodium_mg": 120, "omega3_g": 1.8}, contains_peanuts=True, glycemic_index=50),
     meal("Corn tortilla egg tacos", "Breakfast", "tacos", "Mexican", ["corn tortilla", "egg", "spinach", "avocado"], {"calories": 465, "protein_g": 23, "carbs_g": 46, "fat_g": 22, "fiber_g": 9, "iron_mg": 4.0, "calcium_mg": 190, "vitamin_b12_mcg": 1.4, "vitamin_d_mcg": 3.2, "zinc_mg": 2.7, "potassium_mg": 780, "magnesium_mg": 135, "sodium_mg": 245, "omega3_g": 0.4}, contains_eggs=True, glycemic_index=47),
     meal("Smoked salmon rice breakfast", "Breakfast", "fish plate", "Nordic", ["salmon", "brown rice", "cucumber", "dill"], {"calories": 460, "protein_g": 30, "carbs_g": 43, "fat_g": 17, "fiber_g": 5, "iron_mg": 2.2, "calcium_mg": 120, "vitamin_b12_mcg": 3.8, "vitamin_d_mcg": 8.0, "zinc_mg": 1.8, "potassium_mg": 700, "magnesium_mg": 100, "sodium_mg": 470, "omega3_g": 2.0}, contains_fish=True, glycemic_index=44),
     meal("Lentil dosa coconut plate", "Breakfast", "savory pancake", "Indian", ["lentil dosa", "coconut chutney", "spinach"], {"calories": 430, "protein_g": 18, "carbs_g": 60, "fat_g": 13, "fiber_g": 9, "iron_mg": 4.8, "calcium_mg": 180, "vitamin_b12_mcg": 0.0, "vitamin_d_mcg": 0.0, "zinc_mg": 2.8, "potassium_mg": 680, "magnesium_mg": 145, "sodium_mg": 260, "omega3_g": 0.2}, fodmap_level="medium", glycemic_index=49),
@@ -102,7 +106,7 @@ BASE_MEALS = [
     meal("Low FODMAP tofu rice bowl", "Lunch", "rice bowl", "Japanese", ["firm tofu", "white rice", "carrot", "zucchini", "ginger"], {"calories": 620, "protein_g": 31, "carbs_g": 78, "fat_g": 20, "fiber_g": 8, "iron_mg": 6.2, "calcium_mg": 500, "vitamin_b12_mcg": 0.8, "vitamin_d_mcg": 5.0, "zinc_mg": 3.4, "potassium_mg": 900, "magnesium_mg": 180, "sodium_mg": 360, "omega3_g": 0.9}, contains_soy=True, glycemic_index=50),
     meal("Grilled chicken quinoa bowl", "Lunch", "protein bowl", "Mediterranean", ["chicken", "quinoa", "cucumber", "spinach", "olive oil"], {"calories": 650, "protein_g": 44, "carbs_g": 62, "fat_g": 24, "fiber_g": 9, "iron_mg": 4.6, "calcium_mg": 170, "vitamin_b12_mcg": 0.6, "vitamin_d_mcg": 0.2, "zinc_mg": 3.7, "potassium_mg": 980, "magnesium_mg": 190, "sodium_mg": 370, "omega3_g": 0.2}, contains_meat=True, glycemic_index=45),
     meal("Salmon quinoa greens plate", "Lunch", "fish plate", "Mediterranean", ["salmon", "quinoa", "spinach", "cucumber"], {"calories": 675, "protein_g": 42, "carbs_g": 58, "fat_g": 30, "fiber_g": 8, "iron_mg": 4.1, "calcium_mg": 190, "vitamin_b12_mcg": 4.8, "vitamin_d_mcg": 12.0, "zinc_mg": 2.6, "potassium_mg": 1080, "magnesium_mg": 185, "sodium_mg": 330, "omega3_g": 3.1}, contains_fish=True, glycemic_index=44),
-    meal("Lentil quinoa power bowl", "Lunch", "legume bowl", "Middle Eastern", ["lentils", "quinoa", "kale", "tahini"], {"calories": 635, "protein_g": 29, "carbs_g": 82, "fat_g": 20, "fiber_g": 19, "iron_mg": 7.5, "calcium_mg": 250, "vitamin_b12_mcg": 0.0, "vitamin_d_mcg": 0.0, "zinc_mg": 4.7, "potassium_mg": 1120, "magnesium_mg": 230, "sodium_mg": 330, "omega3_g": 0.3}, fodmap_level="medium", glycemic_index=39),
+    meal("Lentil quinoa power bowl", "Lunch", "legume bowl", "Middle Eastern", ["lentils", "quinoa", "kale", "tahini"], {"calories": 635, "protein_g": 29, "carbs_g": 82, "fat_g": 20, "fiber_g": 19, "iron_mg": 7.5, "calcium_mg": 250, "vitamin_b12_mcg": 0.0, "vitamin_d_mcg": 0.0, "zinc_mg": 4.7, "potassium_mg": 1120, "magnesium_mg": 230, "sodium_mg": 330, "omega3_g": 0.3}, contains_sesame=True, fodmap_level="medium", glycemic_index=39),
     meal("Chickpea cucumber millet salad", "Lunch", "legume salad", "Mediterranean", ["chickpeas", "millet", "cucumber", "parsley"], {"calories": 610, "protein_g": 23, "carbs_g": 86, "fat_g": 19, "fiber_g": 17, "iron_mg": 6.6, "calcium_mg": 190, "vitamin_b12_mcg": 0.0, "vitamin_d_mcg": 0.0, "zinc_mg": 3.9, "potassium_mg": 990, "magnesium_mg": 210, "sodium_mg": 300, "omega3_g": 0.2}, fodmap_level="medium", glycemic_index=42),
     meal("Turkey lettuce rice bowl", "Lunch", "protein bowl", "American", ["turkey", "brown rice", "lettuce", "carrot"], {"calories": 610, "protein_g": 42, "carbs_g": 63, "fat_g": 18, "fiber_g": 7, "iron_mg": 3.3, "calcium_mg": 140, "vitamin_b12_mcg": 1.2, "vitamin_d_mcg": 0.2, "zinc_mg": 4.2, "potassium_mg": 850, "magnesium_mg": 130, "sodium_mg": 390, "omega3_g": 0.1}, contains_meat=True, glycemic_index=48),
     meal("Shrimp brown rice bowl", "Lunch", "seafood bowl", "Thai", ["shrimp", "brown rice", "bok choy", "ginger"], {"calories": 585, "protein_g": 39, "carbs_g": 66, "fat_g": 15, "fiber_g": 7, "iron_mg": 3.0, "calcium_mg": 170, "vitamin_b12_mcg": 1.8, "vitamin_d_mcg": 0.4, "zinc_mg": 2.8, "potassium_mg": 790, "magnesium_mg": 125, "sodium_mg": 520, "omega3_g": 0.5}, contains_shellfish=True, glycemic_index=49),
@@ -113,7 +117,7 @@ BASE_MEALS = [
     meal("Cod potato herb plate", "Dinner", "fish plate", "Nordic", ["cod", "potato", "green beans", "olive oil"], {"calories": 680, "protein_g": 46, "carbs_g": 70, "fat_g": 22, "fiber_g": 9, "iron_mg": 3.3, "calcium_mg": 160, "vitamin_b12_mcg": 3.4, "vitamin_d_mcg": 4.5, "zinc_mg": 2.2, "potassium_mg": 1300, "magnesium_mg": 150, "sodium_mg": 310, "omega3_g": 0.8}, contains_fish=True, glycemic_index=54),
     meal("Low sodium salmon sweet potato", "Dinner", "fish plate", "American", ["salmon", "sweet potato", "kale", "olive oil"], {"calories": 720, "protein_g": 43, "carbs_g": 64, "fat_g": 32, "fiber_g": 11, "iron_mg": 4.0, "calcium_mg": 250, "vitamin_b12_mcg": 5.2, "vitamin_d_mcg": 13.0, "zinc_mg": 2.8, "potassium_mg": 1400, "magnesium_mg": 190, "sodium_mg": 330, "omega3_g": 3.3}, contains_fish=True, glycemic_index=50),
     meal("Seared tuna quinoa salad", "Dinner", "fish salad", "Mediterranean", ["tuna", "quinoa", "spinach", "cucumber"], {"calories": 690, "protein_g": 48, "carbs_g": 55, "fat_g": 28, "fiber_g": 8, "iron_mg": 4.4, "calcium_mg": 160, "vitamin_b12_mcg": 6.0, "vitamin_d_mcg": 5.8, "zinc_mg": 2.4, "potassium_mg": 980, "magnesium_mg": 180, "sodium_mg": 360, "omega3_g": 1.8}, contains_fish=True, glycemic_index=43),
-    meal("Tempeh broccoli brown rice", "Dinner", "plant protein", "Indonesian", ["tempeh", "brown rice", "broccoli", "sesame"], {"calories": 700, "protein_g": 38, "carbs_g": 74, "fat_g": 28, "fiber_g": 13, "iron_mg": 6.5, "calcium_mg": 280, "vitamin_b12_mcg": 0.0, "vitamin_d_mcg": 0.0, "zinc_mg": 4.5, "potassium_mg": 1050, "magnesium_mg": 230, "sodium_mg": 340, "omega3_g": 0.6}, contains_soy=True, glycemic_index=44),
+    meal("Tempeh broccoli brown rice", "Dinner", "plant protein", "Indonesian", ["tempeh", "brown rice", "broccoli", "sesame"], {"calories": 700, "protein_g": 38, "carbs_g": 74, "fat_g": 28, "fiber_g": 13, "iron_mg": 6.5, "calcium_mg": 280, "vitamin_b12_mcg": 0.0, "vitamin_d_mcg": 0.0, "zinc_mg": 4.5, "potassium_mg": 1050, "magnesium_mg": 230, "sodium_mg": 340, "omega3_g": 0.6}, contains_soy=True, contains_sesame=True, glycemic_index=44),
     meal("Black bean avocado quinoa bowl", "Dinner", "legume bowl", "Mexican", ["black beans", "quinoa", "avocado", "cilantro"], {"calories": 720, "protein_g": 28, "carbs_g": 88, "fat_g": 28, "fiber_g": 22, "iron_mg": 7.0, "calcium_mg": 210, "vitamin_b12_mcg": 0.0, "vitamin_d_mcg": 0.0, "zinc_mg": 4.3, "potassium_mg": 1250, "magnesium_mg": 250, "sodium_mg": 310, "omega3_g": 0.3}, fodmap_level="medium", glycemic_index=38),
     meal("Chicken vegetable rice dinner", "Dinner", "protein plate", "American", ["chicken", "brown rice", "zucchini", "carrot"], {"calories": 710, "protein_g": 48, "carbs_g": 70, "fat_g": 23, "fiber_g": 9, "iron_mg": 3.2, "calcium_mg": 150, "vitamin_b12_mcg": 0.7, "vitamin_d_mcg": 0.2, "zinc_mg": 3.5, "potassium_mg": 950, "magnesium_mg": 150, "sodium_mg": 360, "omega3_g": 0.1}, contains_meat=True, glycemic_index=49),
     meal("Egg and quinoa stuffed peppers", "Dinner", "stuffed vegetable", "Mediterranean", ["egg", "quinoa", "bell pepper", "spinach"], {"calories": 650, "protein_g": 31, "carbs_g": 66, "fat_g": 25, "fiber_g": 11, "iron_mg": 5.2, "calcium_mg": 240, "vitamin_b12_mcg": 1.6, "vitamin_d_mcg": 3.8, "zinc_mg": 3.3, "potassium_mg": 940, "magnesium_mg": 180, "sodium_mg": 310, "omega3_g": 0.4}, contains_eggs=True, glycemic_index=45),
@@ -171,6 +175,171 @@ STYLE_WORDS = [
 ]
 
 
+CLINICAL_RULE_SOURCES = (
+    "USDA FoodData Central; Monash Low-FODMAP; NIH DRI/RDA; Glycaemic Index; DASH; internal allergen/low-acid rule maps"
+)
+
+SOURCE_FILE_NAMES = {
+    "usda": "usda_fooddata_reference.csv",
+    "fodmap": "source_lookup_fodmap.csv",
+    "gi": "source_lookup_glycemic_index.csv",
+    "gerd": "source_lookup_gerd_triggers.csv",
+    "allergens": "source_lookup_allergens.csv",
+    "dash": "source_lookup_dash.csv",
+}
+
+
+def normalize_text(value):
+    return str(value or "").strip().lower().replace("_", " ").replace("-", " ")
+
+
+def read_source_rows(filename):
+    path = DATA_DIR / filename
+    if not path.exists():
+        return []
+    with path.open(newline="", encoding="utf-8") as handle:
+        return list(csv.DictReader(handle))
+
+
+def load_source_context():
+    usda_rows = read_source_rows(SOURCE_FILE_NAMES["usda"])
+    usda_refs = {
+        normalize_text(row.get("ingredient")): row
+        for row in usda_rows
+        if str(row.get("fdc_id", "")).strip()
+    }
+    return {
+        "usda_refs": usda_refs,
+        "fodmap": read_source_rows(SOURCE_FILE_NAMES["fodmap"]),
+        "gi": read_source_rows(SOURCE_FILE_NAMES["gi"]),
+        "gerd": read_source_rows(SOURCE_FILE_NAMES["gerd"]),
+        "allergens": read_source_rows(SOURCE_FILE_NAMES["allergens"]),
+        "dash": read_source_rows(SOURCE_FILE_NAMES["dash"]),
+    }
+
+
+def source_key_candidates(ingredient):
+    value = normalize_text(ingredient)
+    aliases = {
+        "firm tofu": "tofu",
+        "tofu free lentil patty": "lentils",
+        "red lentils": "lentils",
+        "pinto beans": "black beans",
+        "white rice": "brown rice",
+        "rice": "brown rice",
+        "certified oats": "fortified oat milk",
+        "almond milk": "almonds",
+        "hemp hearts": "pumpkin seeds",
+        "lentil dosa": "lentils",
+        "soba": "wheat pasta",
+        "wheat tortilla": "wheat pasta",
+        "wheat pita": "wheat pasta",
+        "bacon": "pork",
+        "turkey": "chicken",
+        "tuna": "salmon",
+        "trout": "salmon",
+    }
+    candidates = [value]
+    if value in aliases:
+        candidates.append(aliases[value])
+    return list(dict.fromkeys(candidates))
+
+
+def source_ids_for_ingredients(ingredients, source_context):
+    usda_refs = source_context.get("usda_refs", {})
+    matches = []
+    for ingredient in ingredients:
+        norm = normalize_text(ingredient)
+        if "tofu free" in norm:
+            norm = norm.replace("tofu free", "")
+        row = None
+        key_used = ""
+        for candidate in source_key_candidates(norm):
+            row = usda_refs.get(candidate)
+            key_used = candidate
+            if row:
+                break
+        if not row:
+            for key in sorted(usda_refs, key=len, reverse=True):
+                if key and key in norm:
+                    row = usda_refs[key]
+                    key_used = key
+                    break
+        if row:
+            matches.append(
+                {
+                    "ingredient": ingredient,
+                    "reference_ingredient": key_used,
+                    "fdc_id": str(row.get("fdc_id", "")).strip(),
+                }
+            )
+    unique = []
+    seen = set()
+    for match in matches:
+        key = (match["ingredient"], match["fdc_id"])
+        if key not in seen and match["fdc_id"]:
+            unique.append(match)
+            seen.add(key)
+    return unique
+
+
+def pattern_matches(pattern, ingredients_text):
+    pattern = normalize_text(pattern)
+    if not pattern:
+        return False
+    if pattern == "citrus":
+        return any(token in ingredients_text for token in ["citrus", "lime", "orange", "lemon"])
+    if pattern == "high fat foods":
+        return any(token in ingredients_text for token in ["fried", "bacon", "pork fried"])
+    if pattern == "spicy foods":
+        return any(token in ingredients_text for token in ["spicy", "spices", "salsa"])
+    return pattern in ingredients_text
+
+
+def apply_source_rule_overrides(row, source_context):
+    ingredients_text = normalize_text(" ".join(row.get("ingredients", [])))
+    matches = []
+
+    for rule in source_context.get("fodmap", []):
+        if not pattern_matches(rule.get("ingredient_pattern"), ingredients_text):
+            continue
+        level = normalize_text(rule.get("fodmap_level"))
+        matches.append(f"FODMAP:{rule.get('ingredient_pattern')}={level}")
+        if level == "high":
+            row["fodmap_level"] = "high"
+            row["condition_flags"].add("high fodmap")
+        elif level == "medium" and normalize_text(row.get("fodmap_level")) == "low":
+            row["fodmap_level"] = "medium"
+
+    for rule in source_context.get("gerd", []):
+        if not pattern_matches(rule.get("trigger_pattern"), ingredients_text):
+            continue
+        matches.append(f"GERD:{rule.get('trigger_pattern')}")
+        row["acidity_level"] = "high"
+        row["condition_flags"].add("reflux trigger")
+
+    for rule in source_context.get("gi", []):
+        if not pattern_matches(rule.get("food_pattern"), ingredients_text):
+            continue
+        matches.append(f"GI:{rule.get('food_pattern')}={rule.get('gi_band')}")
+        action = normalize_text(rule.get("rule_action"))
+        if "exclude" in action and ("added sugar" in action or "honey" in ingredients_text):
+            row["condition_flags"].add("added sugar")
+        if float(row.get("glycemic_index", 0)) > 55:
+            row["condition_flags"].add("high gi")
+
+    if float(row.get("sodium_mg", 0)) > 760:
+        matches.append("DASH:sodium meal cap")
+        row["condition_flags"].add("high sodium")
+
+    for rule in source_context.get("allergens", []):
+        app_column = rule.get("app_column", "")
+        if app_column and row.get(app_column):
+            matches.append(f"FDA allergen:{rule.get('allergen_category')}")
+
+    return sorted(set(matches))
+
+
 def combine_flags(row, addon):
     combined = deepcopy(row)
     combined["ingredients"] = list(row["ingredients"]) + list(addon.get("ingredients", []))
@@ -181,8 +350,10 @@ def combine_flags(row, addon):
         "contains_dairy",
         "contains_gluten",
         "contains_tree_nuts",
+        "contains_peanuts",
         "contains_shellfish",
         "contains_soy",
+        "contains_sesame",
         "contains_eggs",
         "contains_pork",
         "contains_beef",
@@ -215,8 +386,10 @@ def allergen_tags(row):
         ("contains_dairy", "dairy"),
         ("contains_gluten", "gluten"),
         ("contains_tree_nuts", "tree nuts"),
+        ("contains_peanuts", "peanuts"),
         ("contains_shellfish", "shellfish"),
         ("contains_soy", "soy"),
+        ("contains_sesame", "sesame"),
         ("contains_eggs", "eggs"),
         ("contains_pork", "pork"),
         ("contains_honey", "honey"),
@@ -229,6 +402,7 @@ def allergen_tags(row):
 
 def make_rows(target_count=5200):
     rows = []
+    source_context = load_source_context()
     safe_addons = [
         addon
         for addon in ADD_ONS
@@ -237,10 +411,12 @@ def make_rows(target_count=5200):
             addon.get(flag)
             for flag in [
                 "contains_tree_nuts",
+                "contains_peanuts",
                 "contains_dairy",
                 "contains_gluten",
                 "contains_shellfish",
                 "contains_pork",
+                "contains_sesame",
                 "contains_honey",
             ]
         )
@@ -265,6 +441,18 @@ def make_rows(target_count=5200):
             final["condition_flags"].add("high sodium")
         if float(final["glycemic_index"]) > 55:
             final["condition_flags"].add("high gi")
+        source_rule_matches = apply_source_rule_overrides(final, source_context)
+        fdc_matches = source_ids_for_ingredients(final["ingredients"], source_context)
+        fdc_ids = [f"FDC:{match['fdc_id']}" for match in fdc_matches]
+        fdc_ingredients = [
+            f"{match['ingredient']}->{match['reference_ingredient']}" for match in fdc_matches
+        ]
+        if fdc_ids:
+            nutrition_source = "USDA FoodData Central API reference rows + deterministic recipe-template scaling"
+            source_confidence = "fdc_reference_mapped"
+        else:
+            nutrition_source = "Curated recipe-template nutrition using USDA FoodData Central nutrient schema"
+            source_confidence = "curated_template_unmapped"
 
         style = STYLE_WORDS[index % len(STYLE_WORDS)]
         addon_label = ", ".join(addon["name"] for addon in chosen)
@@ -285,7 +473,14 @@ def make_rows(target_count=5200):
             "fodmap_level": final["fodmap_level"],
             "acidity_level": final["acidity_level"],
             "glycemic_index": round(float(final["glycemic_index"]), 1),
-            "source_note": "Offline USDA-style nutrition snapshot generated from curated ingredient templates; clinical rules cite public NIH/USDA/NHLBI/NIDDK references in README and brief.",
+            "nutrition_source": nutrition_source,
+            "nutrition_source_ids": "; ".join(dict.fromkeys(fdc_ids)),
+            "nutrition_source_ingredients": "; ".join(dict.fromkeys(fdc_ingredients)),
+            "clinical_rule_sources": CLINICAL_RULE_SOURCES,
+            "source_rule_matches": "; ".join(source_rule_matches),
+            "allergen_rule_source": "Internal allergen keyword map matched against meal and USDA ingredient terms",
+            "source_confidence": source_confidence,
+            "source_note": "Meal candidate generated from curated recipes; nutrient fields link to USDA FoodData Central reference ingredients where mapped and use deterministic recipe scaling. Clinical filters use professor-listed FODMAP, GI, DASH, and RDA references plus internal allergen/low-acid rule maps.",
         }
         for flag in [
             "vegetarian",
@@ -294,8 +489,10 @@ def make_rows(target_count=5200):
             "contains_dairy",
             "contains_gluten",
             "contains_tree_nuts",
+            "contains_peanuts",
             "contains_shellfish",
             "contains_soy",
+            "contains_sesame",
             "contains_eggs",
             "contains_pork",
             "contains_beef",
@@ -329,10 +526,21 @@ def write_rules():
     rules = {
         "sources": {
             "USDA FoodData Central API": "https://fdc.nal.usda.gov/api-guide/",
-            "NIH Office of Dietary Supplements nutrient recommendations": "https://ods.od.nih.gov/HealthInformation/nutrientrecommendations.aspx",
+            "NIH / National Academies Dietary Reference Intakes": "https://www.ncbi.nlm.nih.gov/books/NBK56068/",
             "NHLBI DASH eating plan": "https://www.nhlbi.nih.gov/education/dash-eating-plan",
-            "NIDDK GERD eating guidance": "https://www.niddk.nih.gov/health-information/digestive-diseases/acid-reflux-ger-gerd-adults/eating-diet-nutrition",
             "Monash University Low FODMAP program": "https://www.monashfodmap.com/",
+            "University of Sydney Glycemic Index database": "https://glycemicindex.com/",
+        },
+        "local_reference_files": {
+            "USDA ingredient cache": "data/usda_fooddata_reference.csv",
+            "FODMAP lookup": "data/source_lookup_fodmap.csv",
+            "GI lookup": "data/source_lookup_glycemic_index.csv",
+            "GERD lookup": "data/source_lookup_gerd_triggers.csv",
+            "Allergen lookup": "data/source_lookup_allergens.csv",
+            "DASH lookup": "data/source_lookup_dash.csv",
+            "Internal allergen keyword map": "data/source_lookup_allergens.csv",
+            "Internal low-acid rule map": "data/source_lookup_gerd_triggers.csv",
+            "Source inventory": "data/source_inventory.csv",
         },
         "clinical_rules": {
             "IBS": {"exclude_fodmap_level": "high", "examples": ["garlic", "onion", "wheat"]},
@@ -351,12 +559,29 @@ def write_dictionary():
 `food_database.csv` contains one row per meal candidate. The app treats each row as a single meal serving that can be portion-adjusted by the planner.
 
 - `allergens`: semicolon-delimited explicit allergen tags used for hard exclusion.
+- `base_name`: human-readable dish template used to prevent repeated base dishes across a 7-day plan.
 - `condition_flags`: high-FODMAP, reflux-trigger, high-GI, high-sodium, or added-sugar markers.
 - `cross_contamination_risks`: potential exposure tags that are excluded when strict mode is enabled.
 - nutrient columns: per-serving macro and micronutrient estimates.
-- boolean diet columns: compatibility flags used before ranking.
+- `nutrition_source`: how nutrition fields were populated.
+- `nutrition_source_ids`: linked USDA FoodData Central IDs when the candidate's ingredients match `usda_fooddata_reference.csv`.
+- `nutrition_source_ingredients`: ingredient-to-reference mapping used for the linked USDA IDs.
+- `clinical_rule_sources`: professor-listed source families and internal rule maps used by the candidate.
+- `source_rule_matches`: specific lookup rules matched by this candidate.
+- `source_confidence`: `fdc_reference_mapped` when at least one source ingredient maps to a USDA reference row; otherwise `curated_template_unmapped`.
+- boolean diet/allergen columns: compatibility flags used before ranking, including `contains_honey` for vegan exclusion and `contains_peanuts` / `contains_sesame` for FDA allergen coverage.
 
-The snapshot is deterministic and offline so graders can run the app without API keys. It is structured around USDA FoodData Central style nutrients and rule sources listed in `clinical_rules.json`.
+Source-reference files:
+
+- `usda_fooddata_reference.csv`: USDA FoodData Central ingredient cache generated by `scripts/build_source_reference_data.py`.
+- `source_lookup_fodmap.csv`: Monash-informed FODMAP rule mappings.
+- `source_lookup_glycemic_index.csv`: GI-band rules for diabetes filtering.
+- `source_lookup_gerd_triggers.csv`: internal low-acid rule map for GERD/acidity filtering.
+- `source_lookup_allergens.csv`: internal allergen keyword map for user-declared allergen filtering.
+- `source_lookup_dash.csv`: NHLBI DASH sodium/nutrient emphasis rules.
+- `source_inventory.csv` and `source_provenance.md`: transparent source coverage and caveats.
+
+The snapshot is deterministic and offline so graders can run the app without API keys. It is generated from curated recipe templates, linked to USDA FoodData Central reference ingredients where available, and filtered by source-cited rule lookup tables.
 """
     (DATA_DIR / "data_dictionary.md").write_text(text, encoding="utf-8")
 

@@ -98,14 +98,14 @@ def build_pdf():
     story.append(para("NutriAI - Automated Diet Plan Builder", styles["BriefTitle"]))
     story.append(
         para(
-            "NutriAI is a full-stack, offline-runnable Streamlit application that generates a 7-day, 3-meal-a-day plan under the 60-second target while enforcing clinical condition filters, allergens, diet modes, diversity, and macro/micronutrient analytics.",
+            "NutriAI is a full-stack, offline-runnable Streamlit application that generates a 7-day, 3-meal-a-day plan under the 60-second target while enforcing clinical condition filters, allergens, diet modes, diversity, source provenance, and macro/micronutrient analytics.",
             styles["BriefBody"],
         )
     )
     summary_data = [
         ["Item", "Implementation"],
         ["Runtime", "Streamlit UI + pure-Python planning package; runs with streamlit run code/app.py"],
-        ["Offline data", f"{report['dataset_records']:,} meal candidates in data/food_database.csv"],
+        ["Offline data", f"{report['dataset_records']:,} meal candidates plus USDA/RDA/clinical source-reference files in data/"],
         ["Clinical rules", "IBS, GERD, type 2 diabetes, hypertension, allergens, cross-contamination, diet and cultural constraints"],
         ["Outputs", "7-day plan, explain tables, RDA analytics, benchmarks, downloadable CSV, required persona checks"],
     ]
@@ -114,7 +114,7 @@ def build_pdf():
     story.append(para("Architecture", styles["BriefH2"]))
     arch_data = [
         ["Layer", "Responsibility"],
-        ["Data layer", "Loads offline food snapshot, RDA table, and clinical rule JSON. No network/API key required during grading."],
+        ["Data layer", "Loads offline food snapshot, USDA ingredient cache, RDA table, clinical lookup CSVs, and clinical rule JSON. No network/API key required during grading."],
         ["Safety layer", "Applies hard exclusions before ranking: diet compatibility, cultural constraints, exact allergen tags, cross-contamination risks, FODMAP, GERD, GI, and sodium rules."],
         ["Retrieval layer", "Embeds meal text and user profile with deterministic dense hashed vectors; scores candidates by cosine similarity."],
         ["Ranking layer", "Optimizes calorie fit, micronutrient priorities, clinical fit, semantic similarity, and diversity penalties."],
@@ -125,11 +125,11 @@ def build_pdf():
     story.append(Spacer(1, 8))
     story.append(para("Data Sources and Rule References", styles["BriefH2"]))
     citations = [
-        "USDA FoodData Central API guide for nutrition-field structure: https://fdc.nal.usda.gov/api-guide",
-        "NIH Office of Dietary Supplements for RDA/AI definitions and nutrient references: https://ods.od.nih.gov/HealthInformation/nutrientrecommendations/",
+        "USDA FoodData Central API guide and ingredient cache: https://fdc.nal.usda.gov/api-guide.html",
+        "NIH Dietary Reference Intakes for RDA/AI targets: https://www.ncbi.nlm.nih.gov/books/NBK56068/",
         "NHLBI DASH eating plan for sodium cap and potassium/calcium/magnesium/fiber emphasis: https://www.nhlbi.nih.gov/education/dash-eating-plan",
         "Monash Low FODMAP program for IBS/FODMAP filtering concepts: https://www.monashfodmap.com/",
-        "NIDDK celiac disease guidance for gluten cross-contact handling: https://www.niddk.nih.gov/health-information/digestive-diseases/celiac-disease/eating-diet-nutrition",
+        "University of Sydney Glycemic Index database for GI-band filtering concepts: https://glycemicindex.com/",
     ]
     story.append(ListFlowable([ListItem(para(item, styles["BriefSmall"])) for item in citations], bulletType="bullet"))
 
@@ -195,7 +195,7 @@ def build_pdf():
     story.append(para("Explainability", styles["BriefH2"]))
     story.append(
         para(
-            "Every selected meal includes a ranking explanation with calorie fit, nutrient fit, clinical fit, similarity, and diversity factors. Every excluded example lists the exact reason, such as allergen detected, cross-contamination risk, high-FODMAP food for IBS, GERD trigger, high-GI food for diabetes, or high-sodium food for hypertension.",
+            "Every selected meal includes a ranking explanation with calorie fit, nutrient fit, clinical fit, similarity, diversity factors, and source provenance in the downloadable plan. Every excluded example lists the exact reason, such as allergen detected, cross-contamination risk, high-FODMAP food for IBS, GERD trigger, high-GI food for diabetes, or high-sodium food for hypertension.",
             styles["BriefBody"],
         )
     )
@@ -204,7 +204,9 @@ def build_pdf():
     story.append(para("Limitations and Demo Script", styles["BriefTitle"]))
     story.append(para("Limitations", styles["BriefH2"]))
     limitations = [
-        "The offline nutrition snapshot is deterministic and USDA-style, but not a live FoodData Central pull. This keeps grading runnable without API keys.",
+        "The app does not call APIs at runtime. USDA FoodData Central is incorporated through a committed ingredient-reference cache; unmatched ingredients remain curated recipe-template estimates with visible provenance.",
+        "Monash Low FODMAP and Glycemic Index data are represented as curated public-guidance lookup mappings, not licensed bulk database exports.",
+        "Allergy and GERD/acidity filtering use internal rule maps matched against meal and USDA ingredient terms because the professor source list does not provide dedicated allergy or GERD bulk datasets.",
         "Rules are conservative class-project approximations and should be reviewed by a clinician or registered dietitian before real-world use.",
         "The hashed embedding model is FAISS-ready in spirit but uses numpy cosine retrieval to avoid native binary install risk during demo.",
         "Meal serving multipliers are used for calorie targeting; production software would use ingredient-level recipe scaling and inventory constraints.",

@@ -1,0 +1,7 @@
+food_pattern,gi_band,gi_max_used,rule_action,source_name,source_url,directness,notes
+honey,high/added sugar,55,exclude for diabetes,University of Sydney Glycemic Index database,https://glycemicindex.com/,curated category mapping from GI database concept,App excludes added sugar and GI above 55 for diabetes profiles.
+white rice,higher,55,penalize or exclude when row GI exceeds threshold,University of Sydney Glycemic Index database,https://glycemicindex.com/,curated category mapping from GI database concept,Template GI values are conservative approximations by food pattern.
+wheat pasta,medium/high,55,exclude when row GI exceeds threshold,University of Sydney Glycemic Index database,https://glycemicindex.com/,curated category mapping from GI database concept,Used for diabetes filtering.
+quinoa,low/medium,55,allow,University of Sydney Glycemic Index database,https://glycemicindex.com/,curated category mapping from GI database concept,Preferred lower-GI grain option.
+lentils,low,55,allow,University of Sydney Glycemic Index database,https://glycemicindex.com/,curated category mapping from GI database concept,Preferred fiber-rich lower-GI ingredient.
+beans,low,55,allow,University of Sydney Glycemic Index database,https://glycemicindex.com/,curated category mapping from GI database concept,Preferred fiber-rich lower-GI ingredient.

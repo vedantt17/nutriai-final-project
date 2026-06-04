@@ -1,0 +1,11 @@
+ingredient_pattern,fodmap_level,rule_action,source_name,source_url,directness,notes
+garlic,high,exclude for IBS,Monash University Low FODMAP program,https://www.monashfodmap.com/,curated public-guidance mapping; not an official Monash app export,Used as conservative high-FODMAP trigger.
+onion,high,exclude for IBS,Monash University Low FODMAP program,https://www.monashfodmap.com/,curated public-guidance mapping; not an official Monash app export,Used as conservative high-FODMAP trigger.
+wheat,high,exclude for IBS,Monash University Low FODMAP program,https://www.monashfodmap.com/,curated public-guidance mapping; not an official Monash app export,Also overlaps gluten allergy logic.
+honey,high,exclude for IBS and flag added sugar,Monash University Low FODMAP program,https://www.monashfodmap.com/,curated public-guidance mapping; not an official Monash app export,Also excluded for vegan profiles.
+lentils,medium,portion-sensitive for IBS,Monash University Low FODMAP program,https://www.monashfodmap.com/,curated public-guidance mapping; not an official Monash app export,Allows ranking but tracks medium FODMAP category.
+chickpeas,medium,portion-sensitive for IBS,Monash University Low FODMAP program,https://www.monashfodmap.com/,curated public-guidance mapping; not an official Monash app export,Allows ranking but tracks medium FODMAP category.
+black beans,medium,portion-sensitive for IBS,Monash University Low FODMAP program,https://www.monashfodmap.com/,curated public-guidance mapping; not an official Monash app export,Allows ranking but tracks medium FODMAP category.
+quinoa,low,allow,Monash University Low FODMAP program,https://www.monashfodmap.com/,curated public-guidance mapping; not an official Monash app export,Used as low-FODMAP grain alternative.
+rice,low,allow,Monash University Low FODMAP program,https://www.monashfodmap.com/,curated public-guidance mapping; not an official Monash app export,Used as low-FODMAP starch alternative.
+firm tofu,low,allow,Monash University Low FODMAP program,https://www.monashfodmap.com/,curated public-guidance mapping; not an official Monash app export,Firm tofu treated separately from silken tofu.

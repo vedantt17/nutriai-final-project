@@ -36,6 +36,12 @@ class NutriAITestCase(unittest.TestCase):
             "ingredients",
             "allergens",
             "condition_flags",
+            "nutrition_source",
+            "nutrition_source_ids",
+            "clinical_rule_sources",
+            "source_rule_matches",
+            "allergen_rule_source",
+            "source_confidence",
             "calories",
             "protein_g",
             "iron_mg",
@@ -44,8 +50,35 @@ class NutriAITestCase(unittest.TestCase):
             "vitamin_d_mcg",
             "zinc_mg",
             "contains_honey",
+            "contains_peanuts",
+            "contains_sesame",
         }
         self.assertTrue(required_columns.issubset(set(foods.columns)))
+        self.assertGreater((foods["source_confidence"] == "fdc_reference_mapped").sum(), 0)
+
+    def test_source_reference_files_are_present(self):
+        required_files = [
+            "usda_fooddata_reference.csv",
+            "source_lookup_fodmap.csv",
+            "source_lookup_glycemic_index.csv",
+            "source_lookup_gerd_triggers.csv",
+            "source_lookup_allergens.csv",
+            "source_lookup_dash.csv",
+            "source_inventory.csv",
+            "source_provenance.md",
+        ]
+        for filename in required_files:
+            with self.subTest(filename=filename):
+                path = PROJECT_ROOT / "data" / filename
+                self.assertTrue(path.exists(), f"Missing {path}")
+                self.assertGreater(path.stat().st_size, 50)
+        inventory = pd.read_csv(PROJECT_ROOT / "data" / "source_inventory.csv")
+        self.assertIn("USDA FoodData Central API", set(inventory["source_name"]))
+        self.assertIn("NIH Dietary Reference Intakes", set(inventory["source_name"]))
+        self.assertIn("Monash University Low-FODMAP list", set(inventory["source_name"]))
+        self.assertIn("Glycaemic Index database", set(inventory["source_name"]))
+        self.assertIn("DASH diet guidelines", set(inventory["source_name"]))
+        self.assertIn("NutriAI internal allergen keyword map", set(inventory["source_name"]))
 
     def test_required_personas_pass_all_capabilities(self):
         for persona in REQUIRED_PERSONAS:

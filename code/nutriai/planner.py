@@ -22,8 +22,10 @@ BOOL_COLUMNS = [
     "contains_dairy",
     "contains_gluten",
     "contains_tree_nuts",
+    "contains_peanuts",
     "contains_shellfish",
     "contains_soy",
+    "contains_sesame",
     "contains_eggs",
     "contains_pork",
     "contains_beef",
@@ -418,6 +420,10 @@ class NutriAIPlanner:
                         why_selected=reason,
                         nutrients=nutrients,
                         ingredients=str(row.get("ingredients", "")),
+                        nutrition_source=str(row.get("nutrition_source", "")),
+                        nutrition_source_ids=str(row.get("nutrition_source_ids", "")),
+                        clinical_rule_sources=str(row.get("clinical_rule_sources", "")),
+                        source_rule_matches=str(row.get("source_rule_matches", "")),
                     )
                 )
             totals = self._sum_nutrients(day_meals)
@@ -468,6 +474,10 @@ def plan_to_rows(result: PlanResult) -> list[dict[str, Any]]:
                 "score": meal.score,
                 "why_selected": meal.why_selected,
                 "ingredients": meal.ingredients,
+                "nutrition_source": meal.nutrition_source,
+                "nutrition_source_ids": meal.nutrition_source_ids,
+                "clinical_rule_sources": meal.clinical_rule_sources,
+                "source_rule_matches": meal.source_rule_matches,
             }
             row.update(meal.nutrients)
             rows.append(row)

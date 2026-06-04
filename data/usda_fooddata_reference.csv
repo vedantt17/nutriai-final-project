@@ -1,0 +1,29 @@
+ingredient,fdc_query,fdc_id,fdc_description,data_type,publication_date,calories_per_100g,protein_g_per_100g,carbs_g_per_100g,fat_g_per_100g,fiber_g_per_100g,iron_mg_per_100g,calcium_mg_per_100g,vitamin_b12_mcg_per_100g,vitamin_d_mcg_per_100g,zinc_mg_per_100g,potassium_mg_per_100g,magnesium_mg_per_100g,sodium_mg_per_100g,source_url,source_status
+quinoa,quinoa cooked,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/api-guide/,api_http_error_429
+banana,banana raw,2709224,"Banana, raw",Survey (FNDDS),2024-10-31,97.0,0.74,22.71,0.28,1.7,0.0,5.0,0.0,0.0,0.16,326.0,28.0,0.0,https://fdc.nal.usda.gov/fdc-app.html#/food-details/2709224/nutrients,api_match_cached
+chia,chia seeds dried,170554,"Seeds, chia seeds, dried",SR Legacy,2019-04-01,486.0,16.5,42.1,30.7,34.4,7.72,631.0,0.0,,4.58,407.0,335.0,16.0,https://fdc.nal.usda.gov/fdc-app.html#/food-details/170554/nutrients,api_match_cached
+fortified oat milk,oat milk fortified,173904,"Cereals, oats, regular and quick, not fortified, dry",SR Legacy,2019-04-01,379.0,13.2,67.7,6.52,10.1,4.25,52.0,0.0,0.0,3.64,362.0,138.0,6.0,https://fdc.nal.usda.gov/fdc-app.html#/food-details/173904/nutrients,api_match_cached
+egg,egg whole cooked,173423,"Egg, whole, cooked, fried",SR Legacy,2019-04-01,196.0,13.6,0.83,14.8,0.0,1.89,62.0,0.0,2.2,1.39,152.0,13.0,207.0,https://fdc.nal.usda.gov/fdc-app.html#/food-details/173423/nutrients,api_match_cached
+spinach,spinach raw,2709614,"Spinach, raw",Survey (FNDDS),2024-10-31,27.0,2.85,2.41,0.62,1.6,1.26,68.0,0.0,0.0,0.45,582.0,93.0,111.0,https://fdc.nal.usda.gov/fdc-app.html#/food-details/2709614/nutrients,api_match_cached
+brown rice,rice brown cooked,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/api-guide/,api_http_error_429
+tofu,tofu firm,173788,HOUSE FOODS Premium Firm Tofu,SR Legacy,2019-04-01,85.0,10.9,0.97,4.19,0.9,1.69,149.0,,,,,,33.0,https://fdc.nal.usda.gov/fdc-app.html#/food-details/173788/nutrients,api_match_cached
+greek yogurt,greek yogurt plain nonfat,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/api-guide/,api_http_error_429
+blueberries,blueberries raw,2709275,"Blueberries, raw",Survey (FNDDS),2024-10-31,64.0,0.7,14.57,0.31,2.4,0.34,12.0,0.0,0.0,0.09,86.0,6.0,0.0,https://fdc.nal.usda.gov/fdc-app.html#/food-details/2709275/nutrients,api_match_cached
+pumpkin seeds,pumpkin seeds dried,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/api-guide/,api_http_error_429
+almonds,almonds raw,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/api-guide/,api_http_error_429
+millet,millet cooked,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/api-guide/,api_http_error_429
+peanut butter,peanut butter smooth,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/api-guide/,api_http_error_429
+corn tortilla,corn tortilla,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/api-guide/,api_http_error_429
+avocado,avocado raw,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/api-guide/,api_http_error_429
+salmon,salmon cooked,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/api-guide/,api_http_error_429
+lentils,lentils cooked,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/api-guide/,api_http_error_429
+chickpeas,chickpeas cooked,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/api-guide/,api_http_error_429
+chicken,chicken breast cooked,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/api-guide/,api_http_error_429
+shrimp,shrimp cooked,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/api-guide/,api_http_error_429
+sweet potato,sweet potato cooked,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/api-guide/,api_http_error_429
+kale,kale raw,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/api-guide/,api_http_error_429
+cod,cod cooked,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/api-guide/,api_http_error_429
+tempeh,tempeh,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/api-guide/,api_http_error_429
+black beans,black beans cooked,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/api-guide/,api_http_error_429
+wheat pasta,pasta cooked wheat,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/api-guide/,api_http_error_429
+pork,pork cooked,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/api-guide/,api_http_error_429

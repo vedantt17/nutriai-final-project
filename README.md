@@ -19,7 +19,7 @@ pip install -r code\requirements.txt
 streamlit run code\app.py
 ```
 
-The app uses the included offline dataset in `data/`, so no API key is required for grading.
+The app uses the included offline dataset and source-reference files in `data/`, so no API key is required for grading.
 
 ## Streamlit Community Cloud
 
@@ -49,7 +49,7 @@ The tests verify:
 ## Submission Contents
 
 - `code/`: Streamlit app, planning package, tests, and `requirements.txt`.
-- `data/`: 5,200-record offline food snapshot, RDA reference table, clinical rules, and data dictionary.
+- `data/`: 5,200-record offline food snapshot, USDA ingredient cache, RDA table, clinical lookup files, source provenance, and data dictionary.
 - `brief.pdf`: 4-page technical brief.
 - `prompts.md`: AI prompts and how outputs were modified.
 - `README.md`: setup, run, and test instructions.
@@ -64,13 +64,33 @@ NutriAI integrates three course techniques:
 
 ## Data and Rule References
 
-The offline dataset is structured around public nutrition and diet-rule sources so the app can run without network access:
+The planner is offline at runtime, but the data layer now includes explicit source-reference files:
 
-- USDA FoodData Central API guide: https://fdc.nal.usda.gov/api-guide
-- NIH Office of Dietary Supplements nutrient recommendations: https://ods.od.nih.gov/HealthInformation/nutrientrecommendations/
+- `data/usda_fooddata_reference.csv`: USDA FoodData Central ingredient cache built by `scripts/build_source_reference_data.py`.
+- `data/rda_reference.csv`: compact age/sex RDA and AI targets.
+- `data/source_lookup_fodmap.csv`: Monash-informed FODMAP rule mapping.
+- `data/source_lookup_glycemic_index.csv`: GI-band and diabetes threshold mapping.
+- `data/source_lookup_gerd_triggers.csv`: internal low-acid rule map for GERD/acidity filtering.
+- `data/source_lookup_allergens.csv`: internal allergen keyword map for user-declared exclusions.
+- `data/source_lookup_dash.csv`: NHLBI DASH sodium and nutrient-emphasis rules.
+- `data/source_inventory.csv` and `data/source_provenance.md`: transparent source coverage and caveats.
+
+References:
+
+- USDA FoodData Central API guide: https://fdc.nal.usda.gov/api-guide.html
+- NIH Dietary Reference Intakes: https://www.ncbi.nlm.nih.gov/books/NBK56068/
 - NHLBI DASH eating plan: https://www.nhlbi.nih.gov/education/dash-eating-plan
 - Monash University Low FODMAP program: https://www.monashfodmap.com/
-- NIDDK celiac cross-contact guidance: https://www.niddk.nih.gov/health-information/digestive-diseases/celiac-disease/eating-diet-nutrition
+- University of Sydney Glycemic Index database: https://glycemicindex.com/
+
+To refresh source references before rebuilding the meal snapshot:
+
+```powershell
+python scripts\build_source_reference_data.py
+python scripts\build_offline_dataset.py
+```
+
+Set `FDC_API_KEY` to use a personal USDA/data.gov key. Without it, the script uses `DEMO_KEY`, which has lower rate limits. Monash and GI are used as curated public-guidance mappings, not bulk licensed database exports. Allergy and low-acid GERD/acidity handling are internal rule maps matched against meal and USDA ingredient terms, not extra external data sources.
 
 ## Safety Note
 

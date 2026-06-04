@@ -1,10 +1,21 @@
 {
   "sources": {
     "USDA FoodData Central API": "https://fdc.nal.usda.gov/api-guide/",
-    "NIH Office of Dietary Supplements nutrient recommendations": "https://ods.od.nih.gov/HealthInformation/nutrientrecommendations.aspx",
+    "NIH / National Academies Dietary Reference Intakes": "https://www.ncbi.nlm.nih.gov/books/NBK56068/",
     "NHLBI DASH eating plan": "https://www.nhlbi.nih.gov/education/dash-eating-plan",
-    "NIDDK GERD eating guidance": "https://www.niddk.nih.gov/health-information/digestive-diseases/acid-reflux-ger-gerd-adults/eating-diet-nutrition",
-    "Monash University Low FODMAP program": "https://www.monashfodmap.com/"
+    "Monash University Low FODMAP program": "https://www.monashfodmap.com/",
+    "University of Sydney Glycemic Index database": "https://glycemicindex.com/"
+  },
+  "local_reference_files": {
+    "USDA ingredient cache": "data/usda_fooddata_reference.csv",
+    "FODMAP lookup": "data/source_lookup_fodmap.csv",
+    "GI lookup": "data/source_lookup_glycemic_index.csv",
+    "GERD lookup": "data/source_lookup_gerd_triggers.csv",
+    "Allergen lookup": "data/source_lookup_allergens.csv",
+    "DASH lookup": "data/source_lookup_dash.csv",
+    "Internal allergen keyword map": "data/source_lookup_allergens.csv",
+    "Internal low-acid rule map": "data/source_lookup_gerd_triggers.csv",
+    "Source inventory": "data/source_inventory.csv"
   },
   "clinical_rules": {
     "IBS": {

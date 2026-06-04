@@ -1,0 +1,6 @@
+rule_name,threshold_or_focus,app_field,source_name,source_url,implementation
+daily sodium cap,2300 mg/day,sodium_mg,NHLBI DASH eating plan,https://www.nhlbi.nih.gov/education/dash-eating-plan,Hypertension profiles use 2300 mg/day and a derived 760 mg/meal soft cap.
+vegetables/fruits/whole grains focus,prefer high-fiber patterns,fiber_g,NHLBI DASH eating plan,https://www.nhlbi.nih.gov/education/dash-eating-plan,"Ranking rewards fiber-rich bowls, grains, vegetables, beans, and seeds."
+potassium focus,prefer potassium-rich meals,potassium_mg,NHLBI DASH eating plan,https://www.nhlbi.nih.gov/education/dash-eating-plan,Hypertension scoring rewards potassium density.
+magnesium focus,prefer magnesium-rich meals,magnesium_mg,NHLBI DASH eating plan,https://www.nhlbi.nih.gov/education/dash-eating-plan,Hypertension scoring rewards magnesium density.
+calcium focus,compare against RDA/AI,calcium_mg,NHLBI DASH eating plan,https://www.nhlbi.nih.gov/education/dash-eating-plan,RDA analytics and ranking prioritize calcium when requested.
