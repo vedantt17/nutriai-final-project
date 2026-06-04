@@ -87,6 +87,7 @@ def compare_to_rda(totals: dict[str, float], rda: dict[str, float]) -> dict[str,
             continue
         actual = float(totals.get(nutrient, 0.0))
         ratio = actual / target
+        percent = round(ratio * 100, 1)
         if nutrient == "sodium_mg":
             passes = actual <= target
             target_type = "cap"
@@ -94,13 +95,13 @@ def compare_to_rda(totals: dict[str, float], rda: dict[str, float]) -> dict[str,
             passes = 0.85 <= ratio <= 1.15
             target_type = "range"
         else:
-            passes = ratio >= 0.8
+            passes = percent >= 80.0
             target_type = "minimum"
         comparison[nutrient] = {
             "name": DISPLAY_NAMES.get(nutrient, nutrient),
             "actual": round(actual, 2),
             "target": round(float(target), 2),
-            "percent": round(ratio * 100, 1),
+            "percent": percent,
             "passes_80pct": passes,
             "target_type": target_type,
         }

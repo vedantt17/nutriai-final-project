@@ -631,6 +631,26 @@ def load_usda_reference_summary() -> dict[str, int]:
     return {"rows": int(len(data)), "api_matches": int(matches)}
 
 
+@st.cache_data(show_spinner=False)
+def load_food_database_summary() -> dict[str, int]:
+    path = PROJECT_ROOT / "data" / "food_database.csv"
+    if not path.exists():
+        return {"rows": 0, "unique_food_ids": 0, "unique_dedup_signatures": 0, "duplicate_dedup_signatures": 0}
+    data = pd.read_csv(path, usecols=lambda column: column in {"food_id", "dedup_signature"})
+    rows = int(len(data))
+    unique_food_ids = int(data.get("food_id", pd.Series(dtype=str)).nunique())
+    if "dedup_signature" in data:
+        unique_signatures = int(data["dedup_signature"].nunique())
+    else:
+        unique_signatures = 0
+    return {
+        "rows": rows,
+        "unique_food_ids": unique_food_ids,
+        "unique_dedup_signatures": unique_signatures,
+        "duplicate_dedup_signatures": max(rows - unique_signatures, 0),
+    }
+
+
 def _safe_text(value: object) -> str:
     return escape(str(value or ""))
 
@@ -1013,13 +1033,16 @@ def render_sources():
         "Local source-reference files used by the offline planner; no live API call is required while using the app.",
     )
     summary = load_usda_reference_summary()
+    food_summary = load_food_database_summary()
     source_metrics = [
         {"Metric": "USDA ingredient reference rows", "Value": f"{summary['rows']:,}"},
         {"Metric": "USDA API matches in cache", "Value": f"{summary['api_matches']:,}"},
         {"Metric": "Runtime external API calls", "Value": "0"},
-        {"Metric": "Meal candidates", "Value": "5,200 deterministic records"},
+        {"Metric": "Meal candidates", "Value": f"{food_summary['rows']:,} deduplicated records"},
+        {"Metric": "Unique dedup signatures", "Value": f"{food_summary['unique_dedup_signatures']:,}"},
+        {"Metric": "Duplicate dedup signatures", "Value": f"{food_summary['duplicate_dedup_signatures']:,}"},
     ]
-    st.dataframe(pd.DataFrame(source_metrics), hide_index=True, use_container_width=True, height=180)
+    st.dataframe(pd.DataFrame(source_metrics), hide_index=True, use_container_width=True, height=230)
 
     inventory = load_source_inventory()
     if inventory.empty:

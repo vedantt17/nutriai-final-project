@@ -47,7 +47,7 @@ python -m unittest discover -s code\tests -v
 
 The tests verify:
 
-- 5,000+ offline meal records.
+- 10,000 deduplicated offline meal records.
 - All four required personas generate 21 meals.
 - No exact repeated meals and no repeated base dishes in a 7-day plan.
 - All selected meals pass clinical, allergen, cross-contamination, diet, and cultural filters.
@@ -57,7 +57,7 @@ The tests verify:
 ## Submission Contents
 
 - `code/`: Streamlit app, planning package, tests, and `requirements.txt`.
-- `data/`: 5,200-record offline food snapshot, USDA ingredient cache, RDA table, clinical lookup files, source provenance, and data dictionary.
+- `data/`: 10,000-record deduplicated offline food snapshot, USDA ingredient cache, RDA table, clinical lookup files, source provenance, and data dictionary.
 - `brief.pdf`: 4-page technical brief.
 - `prompts.md`: AI prompts and how outputs were modified.
 - `README.md`: setup, run, and test instructions.

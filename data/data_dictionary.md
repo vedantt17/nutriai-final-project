@@ -6,10 +6,12 @@
 - `base_name`: human-readable dish template used to prevent repeated base dishes across a 7-day plan.
 - `condition_flags`: high-FODMAP, reflux-trigger, high-GI, high-sodium, or added-sugar markers.
 - `cross_contamination_risks`: potential exposure tags that are excluded when strict mode is enabled.
+- `dedup_signature`: deterministic SHA-1 based signature across semantic candidate fields; repeated signatures are removed before the CSV is written.
 - nutrient columns: per-serving macro and micronutrient estimates.
 - `nutrition_source`: how nutrition fields were populated.
 - `nutrition_source_ids`: linked USDA FoodData Central IDs when the candidate's ingredients match `usda_fooddata_reference.csv`.
 - `nutrition_source_ingredients`: ingredient-to-reference mapping used for the linked USDA IDs.
+- `portion_profile`: deterministic serving profile used to create structured portion and nutrient variation.
 - `clinical_rule_sources`: professor-listed source families and internal rule maps used by the candidate.
 - `source_rule_matches`: specific lookup rules matched by this candidate.
 - `source_confidence`: `fdc_reference_mapped` when at least one source ingredient maps to a USDA reference row; otherwise `curated_template_unmapped`.
@@ -25,4 +27,4 @@ Source-reference files:
 - `source_lookup_dash.csv`: NHLBI DASH sodium/nutrient emphasis rules.
 - `source_inventory.csv` and `source_provenance.md`: transparent source coverage and caveats.
 
-The snapshot is deterministic and offline so graders can run the app without API keys. It is generated from curated recipe templates, linked to USDA FoodData Central reference ingredients where available, and filtered by source-cited rule lookup tables.
+The snapshot is deterministic and offline so graders can run the app without API keys. It is generated from curated recipe templates, linked to USDA FoodData Central reference ingredients where available, deduplicated by semantic candidate signature, and filtered by source-cited rule lookup tables.

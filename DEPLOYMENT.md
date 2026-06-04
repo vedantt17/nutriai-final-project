@@ -7,7 +7,7 @@ NutriAI is ready to deploy on Streamlit Community Cloud from a GitHub repository
 Use these values when creating the app:
 
 - Repository: your NutriAI GitHub repository
-- Branch: `main`
+- Branch: `master`
 - Main file path: `code/app.py`
 - Python dependencies: `code/requirements.txt`
 - Secrets: none required

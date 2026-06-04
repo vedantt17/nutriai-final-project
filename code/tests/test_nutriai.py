@@ -26,16 +26,20 @@ class NutriAITestCase(unittest.TestCase):
 
     def test_offline_dataset_is_grading_sized(self):
         foods = self.planner.foods
-        self.assertGreaterEqual(len(foods), 5000)
+        self.assertGreaterEqual(len(foods), 10000)
+        self.assertEqual(foods["food_id"].nunique(), len(foods))
+        self.assertEqual(foods["meal_name"].nunique(), len(foods))
         self.assertGreaterEqual(foods["meal_type"].nunique(), 3)
         self.assertTrue({"Breakfast", "Lunch", "Dinner"}.issubset(set(foods["meal_type"])))
         required_columns = {
             "food_id",
             "base_name",
             "meal_name",
+            "portion_profile",
             "ingredients",
             "allergens",
             "condition_flags",
+            "dedup_signature",
             "nutrition_source",
             "nutrition_source_ids",
             "clinical_rule_sources",
@@ -54,6 +58,7 @@ class NutriAITestCase(unittest.TestCase):
             "contains_sesame",
         }
         self.assertTrue(required_columns.issubset(set(foods.columns)))
+        self.assertEqual(foods["dedup_signature"].nunique(), len(foods))
         self.assertGreater((foods["source_confidence"] == "fdc_reference_mapped").sum(), 0)
 
     def test_source_reference_files_are_present(self):

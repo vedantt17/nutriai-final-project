@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import csv
+import hashlib
 import json
 from copy import deepcopy
 from pathlib import Path
@@ -8,6 +9,7 @@ from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = PROJECT_ROOT / "data"
+TARGET_RECORD_COUNT = 10000
 
 
 NUTRIENT_FIELDS = [
@@ -172,6 +174,22 @@ STYLE_WORDS = [
     "protein",
     "clinic",
     "comfort",
+]
+
+PORTION_PROFILES = [
+    ("light", 0.84),
+    ("standard", 0.90),
+    ("steady", 0.96),
+    ("balanced", 1.00),
+    ("hearty", 1.06),
+    ("high energy", 1.12),
+    ("athlete", 1.18),
+    ("compact", 0.88),
+    ("fiber focus", 1.03),
+    ("mineral focus", 1.09),
+    ("low volume", 0.82),
+    ("clinic standard", 0.94),
+    ("recovery", 1.15),
 ]
 
 
@@ -400,8 +418,27 @@ def allergen_tags(row):
     return tags
 
 
-def make_rows(target_count=5200):
+def apply_portion_profile(row, profile_name, multiplier):
+    adjusted = deepcopy(row)
+    adjusted["portion_profile"] = f"{profile_name} ({multiplier:.2f}x)"
+    for field in NUTRIENT_FIELDS:
+        adjusted[field] = round(float(adjusted[field]) * multiplier, 3)
+    return adjusted
+
+
+def semantic_signature(row):
+    signature_fields = {
+        key: row.get(key, "")
+        for key in sorted(row)
+        if key not in {"food_id", "meal_name", "dedup_signature"}
+    }
+    payload = json.dumps(signature_fields, sort_keys=True, separators=(",", ":"), default=str)
+    return hashlib.sha1(payload.encode("utf-8")).hexdigest()[:16]
+
+
+def make_rows(target_count=TARGET_RECORD_COUNT):
     rows = []
+    seen_signatures = set()
     source_context = load_source_context()
     safe_addons = [
         addon
@@ -421,21 +458,28 @@ def make_rows(target_count=5200):
             ]
         )
     ]
-    for index in range(target_count):
-        base = deepcopy(BASE_MEALS[index % len(BASE_MEALS)])
-        addon_count = 1 + (index % 3)
-        addon_pool = ADD_ONS if index % 5 == 0 else safe_addons
+    attempt = 0
+    max_attempts = target_count * 50
+    while len(rows) < target_count and attempt < max_attempts:
+        base = deepcopy(BASE_MEALS[attempt % len(BASE_MEALS)])
+        addon_count = 1 + (attempt % 3)
+        addon_pool = ADD_ONS if attempt % 5 == 0 else safe_addons
         chosen = []
         for offset in range(addon_count):
-            chosen.append(addon_pool[(index * 7 + offset * 11) % len(addon_pool)])
+            chosen.append(addon_pool[(attempt * 7 + offset * 11) % len(addon_pool)])
 
         final = base
         for addon in chosen:
             final = combine_flags(final, addon)
 
-        if index % 17 == 0:
+        profile_name, portion_multiplier = PORTION_PROFILES[
+            (attempt * 5 + attempt // max(1, len(BASE_MEALS))) % len(PORTION_PROFILES)
+        ]
+        final = apply_portion_profile(final, profile_name, portion_multiplier)
+
+        if attempt % 17 == 0:
             final["cross_contamination_risks"].add("gluten")
-        if index % 29 == 0:
+        if attempt % 29 == 0:
             final["cross_contamination_risks"].add("tree nuts")
         if float(final["sodium_mg"]) > 760:
             final["condition_flags"].add("high sodium")
@@ -454,16 +498,18 @@ def make_rows(target_count=5200):
             nutrition_source = "Curated recipe-template nutrition using USDA FoodData Central nutrient schema"
             source_confidence = "curated_template_unmapped"
 
-        style = STYLE_WORDS[index % len(STYLE_WORDS)]
+        row_number = len(rows) + 1
+        style = STYLE_WORDS[attempt % len(STYLE_WORDS)]
         addon_label = ", ".join(addon["name"] for addon in chosen)
-        meal_name = f"{final['name']} - {style} variant {index + 1}"
+        meal_name = f"{final['name']} - {style} {profile_name} variant {row_number}"
         row = {
-            "food_id": f"NUTRI-{index + 1:05d}",
+            "food_id": f"NUTRI-{row_number:05d}",
             "meal_name": meal_name,
             "base_name": final["name"],
             "meal_type": final["meal_type"],
             "category": final["category"],
             "cuisine": final["cuisine"],
+            "portion_profile": final["portion_profile"],
             "ingredients": "; ".join(dict.fromkeys(final["ingredients"])),
             "variant_addons": addon_label,
             "allergens": "; ".join(allergen_tags(final)),
@@ -503,7 +549,15 @@ def make_rows(target_count=5200):
             row[flag] = bool(final[flag])
         for field in NUTRIENT_FIELDS:
             row[field] = round(float(final[field]), 3)
+        row["dedup_signature"] = semantic_signature(row)
+        if row["dedup_signature"] in seen_signatures:
+            attempt += 1
+            continue
+        seen_signatures.add(row["dedup_signature"])
         rows.append(row)
+        attempt += 1
+    if len(rows) < target_count:
+        raise RuntimeError(f"Only generated {len(rows)} deduplicated records after {attempt} attempts.")
     return rows
 
 
@@ -562,10 +616,12 @@ def write_dictionary():
 - `base_name`: human-readable dish template used to prevent repeated base dishes across a 7-day plan.
 - `condition_flags`: high-FODMAP, reflux-trigger, high-GI, high-sodium, or added-sugar markers.
 - `cross_contamination_risks`: potential exposure tags that are excluded when strict mode is enabled.
+- `dedup_signature`: deterministic SHA-1 based signature across semantic candidate fields; repeated signatures are removed before the CSV is written.
 - nutrient columns: per-serving macro and micronutrient estimates.
 - `nutrition_source`: how nutrition fields were populated.
 - `nutrition_source_ids`: linked USDA FoodData Central IDs when the candidate's ingredients match `usda_fooddata_reference.csv`.
 - `nutrition_source_ingredients`: ingredient-to-reference mapping used for the linked USDA IDs.
+- `portion_profile`: deterministic serving profile used to create structured portion and nutrient variation.
 - `clinical_rule_sources`: professor-listed source families and internal rule maps used by the candidate.
 - `source_rule_matches`: specific lookup rules matched by this candidate.
 - `source_confidence`: `fdc_reference_mapped` when at least one source ingredient maps to a USDA reference row; otherwise `curated_template_unmapped`.
@@ -581,7 +637,7 @@ Source-reference files:
 - `source_lookup_dash.csv`: NHLBI DASH sodium/nutrient emphasis rules.
 - `source_inventory.csv` and `source_provenance.md`: transparent source coverage and caveats.
 
-The snapshot is deterministic and offline so graders can run the app without API keys. It is generated from curated recipe templates, linked to USDA FoodData Central reference ingredients where available, and filtered by source-cited rule lookup tables.
+The snapshot is deterministic and offline so graders can run the app without API keys. It is generated from curated recipe templates, linked to USDA FoodData Central reference ingredients where available, deduplicated by semantic candidate signature, and filtered by source-cited rule lookup tables.
 """
     (DATA_DIR / "data_dictionary.md").write_text(text, encoding="utf-8")
 
@@ -597,7 +653,9 @@ def main():
     write_rda()
     write_rules()
     write_dictionary()
-    print(f"Wrote {len(rows)} meal records to {DATA_DIR / 'food_database.csv'}")
+    duplicate_signatures = len(rows) - len({row["dedup_signature"] for row in rows})
+    print(f"Wrote {len(rows)} deduplicated meal records to {DATA_DIR / 'food_database.csv'}")
+    print(f"Duplicate semantic signatures in final output: {duplicate_signatures}")
     print(f"Wrote RDA and clinical rule references to {DATA_DIR}")
 
 

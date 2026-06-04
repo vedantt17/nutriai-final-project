@@ -17,7 +17,7 @@ This project now separates professor-listed source data from generated meal cand
 
 ## What Is Still Generated
 
-`food_database.csv` contains 5,200 deterministic meal candidate records generated from curated recipe templates. The generator links each candidate to USDA reference IDs where mapped and then applies the clinical/allergen lookup rules. This keeps grading fast and offline while making the data lineage visible.
+`food_database.csv` contains 10,000 deterministic meal candidate records generated from curated recipe templates. The generator links each candidate to USDA reference IDs where mapped, deduplicates records by semantic candidate signature, and then applies the clinical/allergen lookup rules. This keeps grading fast and offline while making the data lineage visible.
 
 ## Runtime Behavior
 
