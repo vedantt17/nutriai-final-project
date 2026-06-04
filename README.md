@@ -4,6 +4,14 @@ NutriAI is a runnable Streamlit application that generates a clinically filtered
 
 ## Quick Start
 
+Live app:
+
+```text
+https://nutriaii.streamlit.app/
+```
+
+The deployed app runs on Streamlit Community Cloud from the GitHub repository and does not require any setup from the grader.
+
 Easiest option on Windows: double-click `Start_NutriAI.bat`, keep the terminal window open, then open:
 
 ```text
