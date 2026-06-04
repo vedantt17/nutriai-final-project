@@ -627,7 +627,7 @@ def load_usda_reference_summary() -> dict[str, int]:
     if not path.exists():
         return {"rows": 0, "api_matches": 0}
     data = pd.read_csv(path)
-    matches = data.get("source_status", pd.Series(dtype=str)).astype(str).eq("api_match").sum()
+    matches = data.get("fdc_id", pd.Series(dtype=str)).fillna("").astype(str).str.strip().ne("").sum()
     return {"rows": int(len(data)), "api_matches": int(matches)}
 
 
