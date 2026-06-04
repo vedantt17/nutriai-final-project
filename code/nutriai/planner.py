@@ -474,10 +474,10 @@ def plan_to_rows(result: PlanResult) -> list[dict[str, Any]]:
                 "score": meal.score,
                 "why_selected": meal.why_selected,
                 "ingredients": meal.ingredients,
-                "nutrition_source": meal.nutrition_source,
-                "nutrition_source_ids": meal.nutrition_source_ids,
-                "clinical_rule_sources": meal.clinical_rule_sources,
-                "source_rule_matches": meal.source_rule_matches,
+                "nutrition_source": getattr(meal, "nutrition_source", ""),
+                "nutrition_source_ids": getattr(meal, "nutrition_source_ids", ""),
+                "clinical_rule_sources": getattr(meal, "clinical_rule_sources", ""),
+                "source_rule_matches": getattr(meal, "source_rule_matches", ""),
             }
             row.update(meal.nutrients)
             rows.append(row)
