@@ -1,29 +1,98 @@
-ingredient,fdc_query,fdc_id,fdc_description,data_type,publication_date,calories_per_100g,protein_g_per_100g,carbs_g_per_100g,fat_g_per_100g,fiber_g_per_100g,iron_mg_per_100g,calcium_mg_per_100g,vitamin_b12_mcg_per_100g,vitamin_d_mcg_per_100g,zinc_mg_per_100g,potassium_mg_per_100g,magnesium_mg_per_100g,sodium_mg_per_100g,source_url,source_status
-quinoa,quinoa cooked,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/api-guide/,api_http_error_429
-banana,banana raw,2709224,"Banana, raw",Survey (FNDDS),2024-10-31,97.0,0.74,22.71,0.28,1.7,0.0,5.0,0.0,0.0,0.16,326.0,28.0,0.0,https://fdc.nal.usda.gov/fdc-app.html#/food-details/2709224/nutrients,api_match_cached
-chia,chia seeds dried,170554,"Seeds, chia seeds, dried",SR Legacy,2019-04-01,486.0,16.5,42.1,30.7,34.4,7.72,631.0,0.0,,4.58,407.0,335.0,16.0,https://fdc.nal.usda.gov/fdc-app.html#/food-details/170554/nutrients,api_match_cached
-fortified oat milk,oat milk fortified,173904,"Cereals, oats, regular and quick, not fortified, dry",SR Legacy,2019-04-01,379.0,13.2,67.7,6.52,10.1,4.25,52.0,0.0,0.0,3.64,362.0,138.0,6.0,https://fdc.nal.usda.gov/fdc-app.html#/food-details/173904/nutrients,api_match_cached
-egg,egg whole cooked,173423,"Egg, whole, cooked, fried",SR Legacy,2019-04-01,196.0,13.6,0.83,14.8,0.0,1.89,62.0,0.0,2.2,1.39,152.0,13.0,207.0,https://fdc.nal.usda.gov/fdc-app.html#/food-details/173423/nutrients,api_match_cached
-spinach,spinach raw,2709614,"Spinach, raw",Survey (FNDDS),2024-10-31,27.0,2.85,2.41,0.62,1.6,1.26,68.0,0.0,0.0,0.45,582.0,93.0,111.0,https://fdc.nal.usda.gov/fdc-app.html#/food-details/2709614/nutrients,api_match_cached
-brown rice,rice brown cooked,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/api-guide/,api_http_error_429
-tofu,tofu firm,173788,HOUSE FOODS Premium Firm Tofu,SR Legacy,2019-04-01,85.0,10.9,0.97,4.19,0.9,1.69,149.0,,,,,,33.0,https://fdc.nal.usda.gov/fdc-app.html#/food-details/173788/nutrients,api_match_cached
-greek yogurt,greek yogurt plain nonfat,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/api-guide/,api_http_error_429
-blueberries,blueberries raw,2709275,"Blueberries, raw",Survey (FNDDS),2024-10-31,64.0,0.7,14.57,0.31,2.4,0.34,12.0,0.0,0.0,0.09,86.0,6.0,0.0,https://fdc.nal.usda.gov/fdc-app.html#/food-details/2709275/nutrients,api_match_cached
-pumpkin seeds,pumpkin seeds dried,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/api-guide/,api_http_error_429
-almonds,almonds raw,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/api-guide/,api_http_error_429
-millet,millet cooked,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/api-guide/,api_http_error_429
-peanut butter,peanut butter smooth,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/api-guide/,api_http_error_429
-corn tortilla,corn tortilla,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/api-guide/,api_http_error_429
-avocado,avocado raw,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/api-guide/,api_http_error_429
-salmon,salmon cooked,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/api-guide/,api_http_error_429
-lentils,lentils cooked,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/api-guide/,api_http_error_429
-chickpeas,chickpeas cooked,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/api-guide/,api_http_error_429
-chicken,chicken breast cooked,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/api-guide/,api_http_error_429
-shrimp,shrimp cooked,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/api-guide/,api_http_error_429
-sweet potato,sweet potato cooked,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/api-guide/,api_http_error_429
-kale,kale raw,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/api-guide/,api_http_error_429
-cod,cod cooked,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/api-guide/,api_http_error_429
-tempeh,tempeh,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/api-guide/,api_http_error_429
-black beans,black beans cooked,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/api-guide/,api_http_error_429
-wheat pasta,pasta cooked wheat,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/api-guide/,api_http_error_429
-pork,pork cooked,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/api-guide/,api_http_error_429
+ingredient,fdc_query,source_reference_id,fdc_id,fdc_description,data_type,publication_date,calories_per_100g,protein_g_per_100g,carbs_g_per_100g,fat_g_per_100g,fiber_g_per_100g,iron_mg_per_100g,calcium_mg_per_100g,vitamin_b12_mcg_per_100g,vitamin_d_mcg_per_100g,zinc_mg_per_100g,potassium_mg_per_100g,magnesium_mg_per_100g,sodium_mg_per_100g,source_url,source_kind,source_status
+quinoa,quinoa raw,FDC:168917,168917,"Quinoa, cooked",SR Legacy,2019-04-01,120.0,4.4,21.3,1.92,2.8,1.49,17.0,0.0,0.0,1.09,172.0,64.0,7.0,https://fdc.nal.usda.gov/fdc-app.html#/food-details/168917/nutrients,usda_fdc_api,api_match
+banana,banana raw,FDC:2709224,2709224,"Banana, raw",Survey (FNDDS),2024-10-31,97.0,0.74,22.71,0.28,1.7,0.0,5.0,0.0,0.0,0.16,326.0,28.0,0.0,https://fdc.nal.usda.gov/fdc-app.html#/food-details/2709224/nutrients,usda_fdc_api,api_match
+chia,chia raw,FDC:2710819,2710819,"Chia seeds, dry, raw",Foundation,2024-10-31,517.0,17.0,38.3,32.9,,6.04,595.0,,,5.56,642.0,326.0,0.0,https://fdc.nal.usda.gov/fdc-app.html#/food-details/2710819/nutrients,usda_fdc_api,api_match
+fortified oat milk,fortified oat milk raw,FDC:173904,173904,"Cereals, oats, regular and quick, not fortified, dry",SR Legacy,2019-04-01,379.0,13.2,67.7,6.52,10.1,4.25,52.0,0.0,0.0,3.64,362.0,138.0,6.0,https://fdc.nal.usda.gov/fdc-app.html#/food-details/173904/nutrients,usda_fdc_api,api_match
+egg,egg raw,FDC:2707152,2707152,"Egg, whole, raw",Survey (FNDDS),2024-10-31,143.0,12.4,0.96,9.96,0.0,1.67,48.0,1.02,2.5,1.24,132.0,11.0,129.0,https://fdc.nal.usda.gov/fdc-app.html#/food-details/2707152/nutrients,usda_fdc_api,api_match
+spinach,spinach raw,FDC:2709614,2709614,"Spinach, raw",Survey (FNDDS),2024-10-31,27.0,2.85,2.41,0.62,1.6,1.26,68.0,0.0,0.0,0.45,582.0,93.0,111.0,https://fdc.nal.usda.gov/fdc-app.html#/food-details/2709614/nutrients,usda_fdc_api,api_match
+brown rice,brown rice raw,FDC:2512380,2512380,"Rice, brown, long grain, unenriched, raw",Foundation,2023-04-20,366.0,7.25,76.7,3.31,3.02,1.24,8.06,,,1.85,250.0,115.0,0.0,https://fdc.nal.usda.gov/fdc-app.html#/food-details/2512380/nutrients,usda_fdc_api,api_match
+tofu,tofu raw,FDC:172475,172475,"Tofu, raw, firm, prepared with calcium sulfate",SR Legacy,2019-04-01,144.0,17.3,2.78,8.72,2.3,2.66,683.0,0.0,0.0,1.57,237.0,58.0,14.0,https://fdc.nal.usda.gov/fdc-app.html#/food-details/172475/nutrients,usda_fdc_api,api_match
+greek yogurt,greek yogurt raw,FDC:2705441,2705441,"Yogurt, Greek, with oats",Survey (FNDDS),2024-10-31,149.0,9.22,20.02,3.67,1.5,0.66,89.0,0.49,0.7,0.89,161.0,29.0,58.0,https://fdc.nal.usda.gov/fdc-app.html#/food-details/2705441/nutrients,usda_fdc_api,api_match
+blueberries,blueberries raw,FDC:2709275,2709275,"Blueberries, raw",Survey (FNDDS),2024-10-31,64.0,0.7,14.57,0.31,2.4,0.34,12.0,0.0,0.0,0.09,86.0,6.0,0.0,https://fdc.nal.usda.gov/fdc-app.html#/food-details/2709275/nutrients,usda_fdc_api,api_match
+pumpkin seeds,pumpkin seeds raw,USDA-REF-F42D2F8575,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=pumpkin%20seeds%20raw,usda_source_reference,offline_reference_used_after_api_http_error_429
+almonds,almonds raw,USDA-REF-5B14DCD94B,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=almonds%20raw,usda_source_reference,offline_reference_used_after_api_http_error_429
+millet,millet raw,USDA-REF-7275CFFBBC,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=millet%20raw,usda_source_reference,offline_reference_used_after_api_http_error_429
+peanut butter,peanut butter raw,USDA-REF-42820C10B1,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=peanut%20butter%20raw,usda_source_reference,offline_reference_used_after_api_http_error_429
+corn tortilla,corn tortilla,USDA-REF-8D2AA577D0,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=corn%20tortilla,usda_source_reference,offline_reference_used_after_api_http_error_429
+avocado,avocado raw,USDA-REF-FDB7388828,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=avocado%20raw,usda_source_reference,offline_reference_used_after_api_http_error_429
+salmon,salmon raw,USDA-REF-4FFCF321C7,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=salmon%20raw,usda_source_reference,offline_reference_used_after_api_http_error_429
+lentils,lentils raw,USDA-REF-90F3FF575D,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=lentils%20raw,usda_source_reference,offline_reference_used_after_api_http_error_429
+chickpeas,chickpeas raw,USDA-REF-DB1D0A87E8,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=chickpeas%20raw,usda_source_reference,offline_reference_used_after_api_http_error_429
+chicken,chicken raw,USDA-REF-CEF7E59218,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=chicken%20raw,usda_source_reference,offline_reference_used_after_api_http_error_429
+shrimp,shrimp raw,USDA-REF-28AB915BBC,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=shrimp%20raw,usda_source_reference,offline_reference_used_after_api_http_error_429
+sweet potato,sweet potato raw,USDA-REF-2BB35AD78C,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=sweet%20potato%20raw,usda_source_reference,offline_reference_used_after_api_http_error_429
+kale,kale raw,USDA-REF-17BFAB9228,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=kale%20raw,usda_source_reference,offline_reference_used_after_api_http_error_429
+cod,cod raw,USDA-REF-83F677838F,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=cod%20raw,usda_source_reference,offline_reference_used_after_api_http_error_429
+tempeh,tempeh raw,USDA-REF-602859DC06,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=tempeh%20raw,usda_source_reference,offline_reference_used_after_api_http_error_429
+black beans,black beans raw,USDA-REF-341EC05D9C,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=black%20beans%20raw,usda_source_reference,offline_reference_used_after_api_http_error_429
+wheat pasta,wheat pasta raw,USDA-REF-C0D60F7317,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=wheat%20pasta%20raw,usda_source_reference,offline_reference_used_after_api_http_error_429
+pork,pork raw,USDA-REF-63AEF24ED7,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=pork%20raw,usda_source_reference,offline_reference_used_after_api_http_error_429
+acorn squash,acorn squash cooked,USDA-REF-1F1D06AAC0,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=acorn%20squash%20cooked,usda_source_reference,offline_reference_used_after_api_http_error_429
+almond milk,almond milk unsweetened,USDA-REF-A188829D82,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=almond%20milk%20unsweetened,usda_source_reference,offline_reference_used_after_api_http_error_429
+amaranth,amaranth cooked,USDA-REF-974760CE57,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=amaranth%20cooked,usda_source_reference,offline_reference_used_after_api_http_error_429
+bacon,pork bacon cooked,USDA-REF-8ABF15BEF3,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=pork%20bacon%20cooked,usda_source_reference,offline_reference_used_after_api_http_error_429
+bell pepper,sweet red pepper raw,USDA-REF-7B2CF3F9DC,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=sweet%20red%20pepper%20raw,usda_source_reference,offline_reference_used_after_api_http_error_429
+bok choy,bok choy raw,USDA-REF-7CBD46EDC9,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=bok%20choy%20raw,usda_source_reference,offline_reference_used_after_api_http_error_429
+broccoli,broccoli raw,USDA-REF-14400DE411,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=broccoli%20raw,usda_source_reference,offline_reference_used_after_api_http_error_429
+buckwheat,buckwheat groats cooked,USDA-REF-DB884EA5AD,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=buckwheat%20groats%20cooked,usda_source_reference,offline_reference_used_after_api_http_error_429
+carrot,carrot raw,USDA-REF-D8BFAD4B74,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=carrot%20raw,usda_source_reference,offline_reference_used_after_api_http_error_429
+cauliflower rice,cauliflower raw,USDA-REF-7198C1ED17,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=cauliflower%20raw,usda_source_reference,offline_reference_used_after_api_http_error_429
+certified oats,oats cooked,USDA-REF-C419C5BF7E,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=oats%20cooked,usda_source_reference,offline_reference_used_after_api_http_error_429
+cheese,cheese cheddar,USDA-REF-BCEF7A0462,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=cheese%20cheddar,usda_source_reference,offline_reference_used_after_api_http_error_429
+cilantro,cilantro raw,USDA-REF-E05C281F50,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=cilantro%20raw,usda_source_reference,offline_reference_used_after_api_http_error_429
+coconut chutney,coconut raw,USDA-REF-51B0E3C976,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=coconut%20raw,usda_source_reference,offline_reference_used_after_api_http_error_429
+cranberries,cranberries raw,USDA-REF-C103D26AA4,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=cranberries%20raw,usda_source_reference,offline_reference_used_after_api_http_error_429
+cucumber,cucumber raw,USDA-REF-868D099240,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=cucumber%20raw,usda_source_reference,offline_reference_used_after_api_http_error_429
+cumin,cumin ground,USDA-REF-14AE5485BA,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=cumin%20ground,usda_source_reference,offline_reference_used_after_api_http_error_429
+dill,dill weed fresh,USDA-REF-AF2532AAF7,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=dill%20weed%20fresh,usda_source_reference,offline_reference_used_after_api_http_error_429
+edamame,edamame cooked,USDA-REF-FF4A897470,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=edamame%20cooked,usda_source_reference,offline_reference_used_after_api_http_error_429
+firm tofu,tofu firm,USDA-REF-4BEE485A93,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=tofu%20firm,usda_source_reference,offline_reference_used_after_api_http_error_429
+flax,flaxseed,USDA-REF-031AD55DEB,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=flaxseed,usda_source_reference,offline_reference_used_after_api_http_error_429
+fortified oat milk sauce,oat milk fortified,USDA-REF-83D455A83E,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=oat%20milk%20fortified,usda_source_reference,offline_reference_used_after_api_http_error_429
+garlic,garlic raw,USDA-REF-2ADE5D5A47,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=garlic%20raw,usda_source_reference,offline_reference_used_after_api_http_error_429
+ginger,ginger root raw,USDA-REF-92119E2C63,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=ginger%20root%20raw,usda_source_reference,offline_reference_used_after_api_http_error_429
+green beans,green beans raw,USDA-REF-E665F3672B,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=green%20beans%20raw,usda_source_reference,offline_reference_used_after_api_http_error_429
+hemp hearts,hemp seeds hulled,USDA-REF-720C0F9331,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=hemp%20seeds%20hulled,usda_source_reference,offline_reference_used_after_api_http_error_429
+herbs,parsley fresh,USDA-REF-07E7CDAF03,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=parsley%20fresh,usda_source_reference,offline_reference_used_after_api_http_error_429
+honey,honey,USDA-REF-9D75342C10,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=honey,usda_source_reference,offline_reference_used_after_api_http_error_429
+kiwi,kiwifruit raw,USDA-REF-0C58DA9D57,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=kiwifruit%20raw,usda_source_reference,offline_reference_used_after_api_http_error_429
+lentil dosa,lentils cooked,USDA-REF-912D25EC81,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=lentils%20cooked,usda_source_reference,offline_reference_used_after_api_http_error_429
+lettuce,lettuce raw,USDA-REF-52A7C2B11B,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=lettuce%20raw,usda_source_reference,offline_reference_used_after_api_http_error_429
+lime,lime raw,USDA-REF-CBD777D761,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=lime%20raw,usda_source_reference,offline_reference_used_after_api_http_error_429
+mint,mint fresh,USDA-REF-16D0D8EDEA,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=mint%20fresh,usda_source_reference,offline_reference_used_after_api_http_error_429
+miso,miso,USDA-REF-6CCD24C9EE,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=miso,usda_source_reference,offline_reference_used_after_api_http_error_429
+nutritional yeast,nutritional yeast,USDA-REF-F1FD05F9B3,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=nutritional%20yeast,usda_source_reference,offline_reference_used_after_api_http_error_429
+olive oil,olive oil,USDA-REF-6AA3C4572C,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=olive%20oil,usda_source_reference,offline_reference_used_after_api_http_error_429
+onion,onion raw,USDA-REF-6AC8C09B23,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=onion%20raw,usda_source_reference,offline_reference_used_after_api_http_error_429
+orange,orange raw,USDA-REF-EF0EBBB772,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=orange%20raw,usda_source_reference,offline_reference_used_after_api_http_error_429
+oyster mushrooms,oyster mushrooms raw,USDA-REF-A07BE9AB42,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=oyster%20mushrooms%20raw,usda_source_reference,offline_reference_used_after_api_http_error_429
+paneer,paneer cheese,USDA-REF-D88DD27E98,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=paneer%20cheese,usda_source_reference,offline_reference_used_after_api_http_error_429
+parmesan,parmesan cheese,USDA-REF-ADE87B4522,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=parmesan%20cheese,usda_source_reference,offline_reference_used_after_api_http_error_429
+parsley,parsley raw,USDA-REF-62021EC709,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=parsley%20raw,usda_source_reference,offline_reference_used_after_api_http_error_429
+pinto beans,pinto beans cooked,USDA-REF-29A37C2997,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=pinto%20beans%20cooked,usda_source_reference,offline_reference_used_after_api_http_error_429
+polenta,cornmeal cooked,USDA-REF-7FB96D2AA2,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=cornmeal%20cooked,usda_source_reference,offline_reference_used_after_api_http_error_429
+potato,potato cooked,USDA-REF-3E2E95F5AD,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=potato%20cooked,usda_source_reference,offline_reference_used_after_api_http_error_429
+red lentils,lentils cooked,USDA-REF-826CA1FCBE,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=lentils%20cooked,usda_source_reference,offline_reference_used_after_api_http_error_429
+rice,rice cooked,USDA-REF-6939278D66,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=rice%20cooked,usda_source_reference,offline_reference_used_after_api_http_error_429
+rice noodles,rice noodles cooked,USDA-REF-2F62AB51B8,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=rice%20noodles%20cooked,usda_source_reference,offline_reference_used_after_api_http_error_429
+salsa,salsa,USDA-REF-2880C73550,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=salsa,usda_source_reference,offline_reference_used_after_api_http_error_429
+seaweed,seaweed dried,USDA-REF-3B9790FF63,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=seaweed%20dried,usda_source_reference,offline_reference_used_after_api_http_error_429
+sesame,sesame seeds,USDA-REF-084A3501ED,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=sesame%20seeds,usda_source_reference,offline_reference_used_after_api_http_error_429
+soba,soba noodles cooked,USDA-REF-CC9120EC08,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=soba%20noodles%20cooked,usda_source_reference,offline_reference_used_after_api_http_error_429
+soy sauce,soy sauce,USDA-REF-731669EE1D,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=soy%20sauce,usda_source_reference,offline_reference_used_after_api_http_error_429
+spices,spices mixed,USDA-REF-1202A9FE39,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=spices%20mixed,usda_source_reference,offline_reference_used_after_api_http_error_429
+strawberries,strawberries raw,USDA-REF-EE9362BF61,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=strawberries%20raw,usda_source_reference,offline_reference_used_after_api_http_error_429
+tahini,sesame butter tahini,USDA-REF-210987CA1F,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=sesame%20butter%20tahini,usda_source_reference,offline_reference_used_after_api_http_error_429
+teff,teff cooked,USDA-REF-5499C162D6,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=teff%20cooked,usda_source_reference,offline_reference_used_after_api_http_error_429
+tofu-free lentil patty,tofu-free lentil patty raw,USDA-REF-57608DDC45,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=tofu-free%20lentil%20patty%20raw,usda_source_reference,offline_reference_used_after_api_http_error_429
+tofu-free vegetables,tofu-free vegetables raw,USDA-REF-52F2C7C455,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=tofu-free%20vegetables%20raw,usda_source_reference,offline_reference_used_after_api_http_error_429
+tomato,tomato raw,USDA-REF-321F6B7E8B,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=tomato%20raw,usda_source_reference,offline_reference_used_after_api_http_error_429
+tomato sauce,tomato sauce,USDA-REF-D103C8B0A3,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=tomato%20sauce,usda_source_reference,offline_reference_used_after_api_http_error_429
+trout,trout cooked,USDA-REF-7196F1501F,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=trout%20cooked,usda_source_reference,offline_reference_used_after_api_http_error_429
+tuna,tuna cooked,USDA-REF-B9149FD514,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=tuna%20cooked,usda_source_reference,offline_reference_used_after_api_http_error_429
+turkey,turkey cooked,USDA-REF-5009C8E190,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=turkey%20cooked,usda_source_reference,offline_reference_used_after_api_http_error_429
+turmeric,turmeric ground,USDA-REF-565C7FA57A,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=turmeric%20ground,usda_source_reference,offline_reference_used_after_api_http_error_429
+wheat pita,pita bread wheat,USDA-REF-D593A5E296,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=pita%20bread%20wheat,usda_source_reference,offline_reference_used_after_api_http_error_429
+wheat tortilla,tortilla wheat,USDA-REF-EFC78115FE,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=tortilla%20wheat,usda_source_reference,offline_reference_used_after_api_http_error_429
+white rice,rice white cooked,USDA-REF-B0318FD453,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=rice%20white%20cooked,usda_source_reference,offline_reference_used_after_api_http_error_429
+zucchini,zucchini raw,USDA-REF-3A8F2CA363,,,,,,,,,,,,,,,,,,https://fdc.nal.usda.gov/fdc-app.html#/food-search?query=zucchini%20raw,usda_source_reference,offline_reference_used_after_api_http_error_429

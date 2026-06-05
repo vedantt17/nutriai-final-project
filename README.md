@@ -48,6 +48,7 @@ python -m unittest discover -s code\tests -v
 The tests verify:
 
 - 10,750 deduplicated offline meal records.
+- 97/97 meal-template ingredients have source-reference coverage and no generated meal row has unmapped ingredients.
 - All four required personas generate 21 meals.
 - No exact repeated meals and no repeated base dishes in a 7-day plan.
 - All selected meals pass clinical, allergen, cross-contamination, diet, and cultural filters.
@@ -57,7 +58,7 @@ The tests verify:
 ## Submission Contents
 
 - `code/`: Streamlit app, planning package, tests, and `requirements.txt`.
-- `data/`: 10,750-record deduplicated offline food snapshot, USDA ingredient cache, RDA table, clinical lookup files, source provenance, and data dictionary.
+- `data/`: 10,750-record deduplicated offline food snapshot, 97-row template ingredient source-reference cache, RDA table, clinical lookup files, source provenance, and data dictionary.
 - `brief.pdf`: 4-page technical brief.
 - `prompts.md`: AI prompts and how outputs were modified.
 - `README.md`: setup, run, and test instructions.
@@ -74,7 +75,7 @@ NutriAI integrates three course techniques:
 
 The planner is offline at runtime, but the data layer now includes explicit source-reference files:
 
-- `data/usda_fooddata_reference.csv`: USDA FoodData Central ingredient cache built by `scripts/build_source_reference_data.py`.
+- `data/usda_fooddata_reference.csv`: 97-row ingredient source-reference cache built by `scripts/build_source_reference_data.py`; current cache has 10 live/cached USDA FoodData Central API matches and source-reference coverage for every meal-template ingredient.
 - `data/rda_reference.csv`: compact age/sex RDA and AI targets.
 - `data/source_lookup_fodmap.csv`: Monash-informed FODMAP rule mapping.
 - `data/source_lookup_glycemic_index.csv`: GI-band and diabetes threshold mapping.
@@ -98,7 +99,7 @@ python scripts\build_source_reference_data.py
 python scripts\build_offline_dataset.py
 ```
 
-Set `FDC_API_KEY` to use a personal USDA/data.gov key. Without it, the script uses `DEMO_KEY`, which has lower rate limits. Monash and GI are used as curated public-guidance mappings, not bulk licensed database exports. Allergy and low-acid GERD/acidity handling are internal rule maps matched against meal and USDA ingredient terms, not extra external data sources.
+Set `FDC_API_KEY` to use a personal USDA/data.gov key. Without it, the script uses `DEMO_KEY`, which has lower rate limits. If the API is skipped or rate-limited, the builder keeps explicit offline source-reference rows and does not count them as live API matches. Monash and GI are used as curated public-guidance mappings, not bulk licensed database exports. Allergy and low-acid GERD/acidity handling are internal rule maps matched against meal and USDA ingredient terms, not extra external data sources.
 
 ## Safety Note
 

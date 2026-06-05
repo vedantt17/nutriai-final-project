@@ -17,6 +17,7 @@ from nutriai.personas import REQUIRED_PERSONAS
 def main():
     planner = NutriAIPlanner(project_root=PROJECT_ROOT)
     foods = pd.read_csv(PROJECT_ROOT / "data" / "food_database.csv")
+    usda = pd.read_csv(PROJECT_ROOT / "data" / "usda_fooddata_reference.csv")
     rows = []
     for persona in REQUIRED_PERSONAS:
         result = planner.generate_plan(persona)
@@ -37,6 +38,15 @@ def main():
             "duplicate_food_ids": int(foods["food_id"].duplicated().sum()),
             "unique_dedup_signatures": int(foods["dedup_signature"].nunique()) if "dedup_signature" in foods else 0,
             "duplicate_dedup_signatures": int(foods["dedup_signature"].duplicated().sum()) if "dedup_signature" in foods else int(len(foods)),
+        },
+        "source_traceability": {
+            "usda_reference_rows": int(len(usda)),
+            "usda_api_matches": int(usda.get("fdc_id", pd.Series(dtype=str)).fillna("").astype(str).str.strip().ne("").sum()),
+            "usda_source_reference_rows": int(usda.get("source_reference_id", pd.Series(dtype=str)).fillna("").astype(str).str.strip().ne("").sum()),
+            "meal_rows_with_source_ids": int(foods.get("nutrition_source_ids", pd.Series(dtype=str)).fillna("").astype(str).str.strip().ne("").sum()),
+            "meal_rows_with_fdc_ids": int(foods.get("nutrition_source_fdc_ids", pd.Series(dtype=str)).fillna("").astype(str).str.strip().ne("").sum()),
+            "meal_rows_with_unmapped_ingredients": int(foods.get("nutrition_source_unmapped_ingredients", pd.Series(dtype=str)).fillna("").astype(str).str.strip().ne("").sum()),
+            "source_confidence_counts": foods.get("source_confidence", pd.Series(dtype=str)).fillna("").astype(str).value_counts().to_dict(),
         },
         "personas": rows,
     }

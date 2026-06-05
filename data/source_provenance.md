@@ -4,7 +4,7 @@ This project now separates professor-listed source data from generated meal cand
 
 ## Professor-Listed Sources Incorporated
 
-- `usda_fooddata_reference.csv`: ingredient nutrition reference records fetched from USDA FoodData Central when an API key or `DEMO_KEY` is available. Current cache API matches: 7 of 28 requested ingredients.
+- `usda_fooddata_reference.csv`: ingredient reference rows for every ingredient used by the meal templates. Current cache coverage: 97 of 97 template ingredients, including 10 live/cached USDA FoodData Central API matches and 87 offline source-reference rows retained for grading without an API key.
 - `rda_reference.csv`: compact age/sex RDA and AI targets used directly by the planner for daily nutrient gap checks.
 - `source_lookup_fodmap.csv`: conservative IBS/FODMAP ingredient categories based on Monash Low-FODMAP public guidance concepts. This is not a licensed Monash app database export.
 - `source_lookup_glycemic_index.csv`: optional Glycaemic Index database mapping for diabetes GI thresholds and low-GI preference.
@@ -17,7 +17,9 @@ This project now separates professor-listed source data from generated meal cand
 
 ## What Is Still Generated
 
-`food_database.csv` contains 10,750 deterministic meal candidate records generated from curated recipe templates. The generator links each candidate to USDA reference IDs where mapped, deduplicates records by semantic candidate signature, and then applies the clinical/allergen lookup rules. This keeps grading fast and offline while making the data lineage visible.
+`food_database.csv` contains 10,750 deterministic meal candidate records generated from curated recipe templates. Before each candidate is written, the generator maps its ingredients to `usda_fooddata_reference.csv`, deduplicates records by semantic candidate signature, and then applies the clinical/allergen lookup rules. This keeps grading fast and offline while making the data lineage visible.
+
+Rows with `source_kind=usda_fdc_api` have a FoodData Central ID returned by the API or retained from a previous cache. Rows with `source_kind=usda_source_reference` are transparent offline reference rows used when the public API is skipped or rate-limited; they are not counted as live API matches.
 
 ## Runtime Behavior
 

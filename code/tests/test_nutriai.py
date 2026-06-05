@@ -42,6 +42,8 @@ class NutriAITestCase(unittest.TestCase):
             "dedup_signature",
             "nutrition_source",
             "nutrition_source_ids",
+            "nutrition_source_fdc_ids",
+            "nutrition_source_unmapped_ingredients",
             "clinical_rule_sources",
             "source_rule_matches",
             "allergen_rule_source",
@@ -59,7 +61,10 @@ class NutriAITestCase(unittest.TestCase):
         }
         self.assertTrue(required_columns.issubset(set(foods.columns)))
         self.assertEqual(foods["dedup_signature"].nunique(), len(foods))
-        self.assertGreater((foods["source_confidence"] == "fdc_reference_mapped").sum(), 0)
+        self.assertEqual(foods["nutrition_source_ids"].fillna("").astype(str).str.strip().eq("").sum(), 0)
+        self.assertEqual(foods["nutrition_source_unmapped_ingredients"].fillna("").astype(str).str.strip().ne("").sum(), 0)
+        self.assertEqual((foods["source_confidence"] == "source_reference_partial").sum(), 0)
+        self.assertGreater(foods["nutrition_source_fdc_ids"].fillna("").astype(str).str.strip().ne("").sum(), 0)
 
     def test_source_reference_files_are_present(self):
         required_files = [
@@ -78,12 +83,16 @@ class NutriAITestCase(unittest.TestCase):
                 self.assertTrue(path.exists(), f"Missing {path}")
                 self.assertGreater(path.stat().st_size, 50)
         inventory = pd.read_csv(PROJECT_ROOT / "data" / "source_inventory.csv")
+        usda = pd.read_csv(PROJECT_ROOT / "data" / "usda_fooddata_reference.csv")
         self.assertIn("USDA FoodData Central API", set(inventory["source_name"]))
         self.assertIn("NIH Dietary Reference Intakes", set(inventory["source_name"]))
         self.assertIn("Monash University Low-FODMAP list", set(inventory["source_name"]))
         self.assertIn("Glycaemic Index database", set(inventory["source_name"]))
         self.assertIn("DASH diet guidelines", set(inventory["source_name"]))
         self.assertIn("NutriAI internal allergen keyword map", set(inventory["source_name"]))
+        self.assertGreaterEqual(len(usda), 90)
+        self.assertEqual(usda["source_reference_id"].fillna("").astype(str).str.strip().eq("").sum(), 0)
+        self.assertGreater(usda["fdc_id"].fillna("").astype(str).str.strip().ne("").sum(), 0)
 
     def test_required_personas_pass_all_capabilities(self):
         for persona in REQUIRED_PERSONAS:

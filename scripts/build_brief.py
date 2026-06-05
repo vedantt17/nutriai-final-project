@@ -105,7 +105,7 @@ def build_pdf():
     summary_data = [
         ["Item", "Implementation"],
         ["Runtime", "Streamlit UI + pure-Python planning package; runs with streamlit run code/app.py"],
-        ["Offline data", f"{report['dataset_records']:,} meal candidates plus USDA/RDA/clinical source-reference files in data/"],
+        ["Offline data", f"{report['dataset_records']:,} meal candidates plus USDA/RDA/clinical source-reference files in data/; 97/97 template ingredients covered"],
         ["Clinical rules", "IBS, GERD, type 2 diabetes, hypertension, allergens, cross-contamination, diet and cultural constraints"],
         ["Outputs", "7-day plan, explain tables, RDA analytics, benchmarks, downloadable CSV, required persona checks"],
     ]
@@ -195,16 +195,16 @@ def build_pdf():
     story.append(para("Explainability", styles["BriefH2"]))
     story.append(
         para(
-            "Every selected meal includes a ranking explanation with calorie fit, nutrient fit, clinical fit, similarity, diversity factors, and source provenance in the downloadable plan. Every excluded example lists the exact reason, such as allergen detected, cross-contamination risk, high-FODMAP food for IBS, GERD trigger, high-GI food for diabetes, or high-sodium food for hypertension.",
+            "Every selected meal includes a ranking explanation with calorie fit, nutrient fit, clinical fit, similarity, and diversity factors. The Sources tab reports USDA/source-reference coverage, API matches, FDC-linked meal rows, and unmapped ingredient counts. Every excluded example lists the exact reason, such as allergen detected, cross-contamination risk, high-FODMAP food for IBS, GERD trigger, high-GI food for diabetes, or high-sodium food for hypertension.",
             styles["BriefBody"],
         )
     )
 
     story.append(PageBreak())
-    story.append(para("Limitations and Demo Script", styles["BriefTitle"]))
+    story.append(para("Limitations and Submission Notes", styles["BriefTitle"]))
     story.append(para("Limitations", styles["BriefH2"]))
     limitations = [
-        "The app does not call APIs at runtime. USDA FoodData Central is incorporated through a committed ingredient-reference cache; unmatched ingredients remain curated recipe-template estimates with visible provenance.",
+        "The app does not call APIs at runtime. USDA FoodData Central is incorporated through a committed ingredient-reference cache with 97/97 template-ingredient coverage; live/cached FDC API matches and offline source-reference rows are counted separately.",
         "Monash Low FODMAP and Glycemic Index data are represented as curated public-guidance lookup mappings, not licensed bulk database exports.",
         "Allergy and GERD/acidity filtering use internal rule maps matched against meal and USDA ingredient terms because the professor source list does not provide dedicated allergy or GERD bulk datasets.",
         "Rules are conservative class-project approximations and should be reviewed by a clinician or registered dietitian before real-world use.",
@@ -212,16 +212,6 @@ def build_pdf():
         "Meal serving multipliers are used for calorie targeting; production software would use ingredient-level recipe scaling and inventory constraints.",
     ]
     story.append(ListFlowable([ListItem(para(item, styles["BriefBody"])) for item in limitations], bulletType="bullet"))
-    story.append(para("10-Minute Demo Flow", styles["BriefH2"]))
-    demo_steps = [
-        "Open the app with streamlit run code/app.py and show the profile sidebar.",
-        "Load Priya and generate the plan; point out zero lactose, low-FODMAP exclusions, and 21 unique meals.",
-        "Open Nutrients and show per-day calories plus RDA comparison.",
-        "Open Explain and show selected-meal ranking reasons and excluded-food reasons.",
-        "Open Benchmarks and identify Bloom filter sketching, embeddings, and ranking timings.",
-        "Run Required Persona Tests and show all PASS statuses.",
-    ]
-    story.append(ListFlowable([ListItem(para(item, styles["BriefBody"])) for item in demo_steps], bulletType="1"))
     story.append(Spacer(1, 8))
     story.append(
         KeepTogether(

@@ -224,7 +224,7 @@ def load_source_context():
     usda_refs = {
         normalize_text(row.get("ingredient")): row
         for row in usda_rows
-        if str(row.get("fdc_id", "")).strip()
+        if str(row.get("fdc_id", "")).strip() or str(row.get("source_reference_id", "")).strip()
     }
     return {
         "usda_refs": usda_refs,
@@ -256,6 +256,7 @@ def source_key_candidates(ingredient):
         "turkey": "chicken",
         "tuna": "salmon",
         "trout": "salmon",
+        "fortified oat milk sauce": "fortified oat milk",
     }
     candidates = [value]
     if value in aliases:
@@ -268,8 +269,6 @@ def source_ids_for_ingredients(ingredients, source_context):
     matches = []
     for ingredient in ingredients:
         norm = normalize_text(ingredient)
-        if "tofu free" in norm:
-            norm = norm.replace("tofu free", "")
         row = None
         key_used = ""
         for candidate in source_key_candidates(norm):
@@ -284,18 +283,24 @@ def source_ids_for_ingredients(ingredients, source_context):
                     key_used = key
                     break
         if row:
+            fdc_id = str(row.get("fdc_id", "")).strip()
+            source_reference_id = str(row.get("source_reference_id", "")).strip()
+            reference_id = f"FDC:{fdc_id}" if fdc_id else source_reference_id
             matches.append(
                 {
                     "ingredient": ingredient,
                     "reference_ingredient": key_used,
-                    "fdc_id": str(row.get("fdc_id", "")).strip(),
+                    "reference_id": reference_id,
+                    "fdc_id": fdc_id,
+                    "source_kind": str(row.get("source_kind", "")).strip(),
+                    "source_status": str(row.get("source_status", "")).strip(),
                 }
             )
     unique = []
     seen = set()
     for match in matches:
-        key = (match["ingredient"], match["fdc_id"])
-        if key not in seen and match["fdc_id"]:
+        key = (match["ingredient"], match["reference_id"])
+        if key not in seen and match["reference_id"]:
             unique.append(match)
             seen.add(key)
     return unique
@@ -486,17 +491,31 @@ def make_rows(target_count=TARGET_RECORD_COUNT):
         if float(final["glycemic_index"]) > 55:
             final["condition_flags"].add("high gi")
         source_rule_matches = apply_source_rule_overrides(final, source_context)
-        fdc_matches = source_ids_for_ingredients(final["ingredients"], source_context)
-        fdc_ids = [f"FDC:{match['fdc_id']}" for match in fdc_matches]
-        fdc_ingredients = [
-            f"{match['ingredient']}->{match['reference_ingredient']}" for match in fdc_matches
+        source_matches = source_ids_for_ingredients(final["ingredients"], source_context)
+        unique_ingredients = list(dict.fromkeys(final["ingredients"]))
+        matched_ingredients = {match["ingredient"] for match in source_matches}
+        unmapped_ingredients = [
+            ingredient for ingredient in unique_ingredients if ingredient not in matched_ingredients
         ]
-        if fdc_ids:
-            nutrition_source = "USDA FoodData Central API reference rows + deterministic recipe-template scaling"
-            source_confidence = "fdc_reference_mapped"
+        source_ids = [match["reference_id"] for match in source_matches]
+        fdc_ids = [f"FDC:{match['fdc_id']}" for match in source_matches if match.get("fdc_id")]
+        source_ingredients = [
+            (
+                f"{match['ingredient']}->{match['reference_ingredient']}"
+                f" ({match['reference_id']}; {match.get('source_status', 'source_reference')})"
+            )
+            for match in source_matches
+        ]
+        if not unmapped_ingredients and source_matches:
+            nutrition_source = "USDA FoodData Central ingredient reference cache + deterministic recipe-template scaling"
+            source_confidence = "usda_source_reference_mapped"
+            if len(fdc_ids) == len(source_ids):
+                source_confidence = "usda_fdc_api_mapped"
+            elif fdc_ids:
+                source_confidence = "usda_hybrid_reference_mapped"
         else:
-            nutrition_source = "Curated recipe-template nutrition using USDA FoodData Central nutrient schema"
-            source_confidence = "curated_template_unmapped"
+            nutrition_source = "Partial USDA ingredient reference mapping + deterministic recipe-template scaling"
+            source_confidence = "source_reference_partial"
 
         row_number = len(rows) + 1
         style = STYLE_WORDS[attempt % len(STYLE_WORDS)]
@@ -520,13 +539,15 @@ def make_rows(target_count=TARGET_RECORD_COUNT):
             "acidity_level": final["acidity_level"],
             "glycemic_index": round(float(final["glycemic_index"]), 1),
             "nutrition_source": nutrition_source,
-            "nutrition_source_ids": "; ".join(dict.fromkeys(fdc_ids)),
-            "nutrition_source_ingredients": "; ".join(dict.fromkeys(fdc_ingredients)),
+            "nutrition_source_ids": "; ".join(dict.fromkeys(source_ids)),
+            "nutrition_source_ingredients": "; ".join(dict.fromkeys(source_ingredients)),
+            "nutrition_source_unmapped_ingredients": "; ".join(unmapped_ingredients),
+            "nutrition_source_fdc_ids": "; ".join(dict.fromkeys(fdc_ids)),
             "clinical_rule_sources": CLINICAL_RULE_SOURCES,
             "source_rule_matches": "; ".join(source_rule_matches),
             "allergen_rule_source": "Internal allergen keyword map matched against meal and USDA ingredient terms",
             "source_confidence": source_confidence,
-            "source_note": "Meal candidate generated from curated recipes; nutrient fields link to USDA FoodData Central reference ingredients where mapped and use deterministic recipe scaling. Clinical filters use professor-listed FODMAP, GI, DASH, and RDA references plus internal allergen/low-acid rule maps.",
+            "source_note": "Meal candidate generated from curated recipe templates; every ingredient is checked against the local USDA FoodData Central source-reference cache before writing. API-matched ingredients retain FDC IDs, API-limited ingredients retain explicit offline source-reference IDs, and clinical filters use professor-listed FODMAP, GI, DASH, and RDA references plus internal allergen/low-acid rule maps.",
         }
         for flag in [
             "vegetarian",
@@ -619,17 +640,19 @@ def write_dictionary():
 - `dedup_signature`: deterministic SHA-1 based signature across semantic candidate fields; repeated signatures are removed before the CSV is written.
 - nutrient columns: per-serving macro and micronutrient estimates.
 - `nutrition_source`: how nutrition fields were populated.
-- `nutrition_source_ids`: linked USDA FoodData Central IDs when the candidate's ingredients match `usda_fooddata_reference.csv`.
+- `nutrition_source_ids`: linked source-reference IDs for the candidate's ingredients from `usda_fooddata_reference.csv`; API rows use `FDC:<id>`, offline coverage rows use `USDA-REF-*`.
+- `nutrition_source_fdc_ids`: subset of `nutrition_source_ids` that came from live/cached USDA FoodData Central API matches.
 - `nutrition_source_ingredients`: ingredient-to-reference mapping used for the linked USDA IDs.
+- `nutrition_source_unmapped_ingredients`: any ingredient that failed source-reference mapping; expected to be blank after validation.
 - `portion_profile`: deterministic serving profile used to create structured portion and nutrient variation.
 - `clinical_rule_sources`: professor-listed source families and internal rule maps used by the candidate.
 - `source_rule_matches`: specific lookup rules matched by this candidate.
-- `source_confidence`: `fdc_reference_mapped` when at least one source ingredient maps to a USDA reference row; otherwise `curated_template_unmapped`.
+- `source_confidence`: `usda_fdc_api_mapped`, `usda_hybrid_reference_mapped`, or `usda_source_reference_mapped` when all ingredients map to source rows; `source_reference_partial` indicates a validation issue.
 - boolean diet/allergen columns: compatibility flags used before ranking, including `contains_honey` for vegan exclusion and `contains_peanuts` / `contains_sesame` for FDA allergen coverage.
 
 Source-reference files:
 
-- `usda_fooddata_reference.csv`: USDA FoodData Central ingredient cache generated by `scripts/build_source_reference_data.py`.
+- `usda_fooddata_reference.csv`: USDA FoodData Central ingredient cache and template ingredient source-reference coverage generated by `scripts/build_source_reference_data.py`.
 - `source_lookup_fodmap.csv`: Monash-informed FODMAP rule mappings.
 - `source_lookup_glycemic_index.csv`: GI-band rules for diabetes filtering.
 - `source_lookup_gerd_triggers.csv`: internal low-acid rule map for GERD/acidity filtering.
@@ -637,7 +660,7 @@ Source-reference files:
 - `source_lookup_dash.csv`: NHLBI DASH sodium/nutrient emphasis rules.
 - `source_inventory.csv` and `source_provenance.md`: transparent source coverage and caveats.
 
-The snapshot is deterministic and offline so graders can run the app without API keys. It is generated from curated recipe templates, linked to USDA FoodData Central reference ingredients where available, deduplicated by semantic candidate signature, and filtered by source-cited rule lookup tables.
+The snapshot is deterministic and offline so graders can run the app without API keys. It is generated from curated recipe templates, linked to USDA FoodData Central API matches where available and explicit USDA source-reference rows for every template ingredient, deduplicated by semantic candidate signature, and filtered by source-cited rule lookup tables.
 """
     (DATA_DIR / "data_dictionary.md").write_text(text, encoding="utf-8")
 

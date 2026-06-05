@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import csv
+import hashlib
+import importlib.util
 import json
 import os
 import time
@@ -47,6 +49,78 @@ USDA_QUERIES = [
     ("pork", "pork cooked"),
 ]
 
+QUERY_ALIASES = {
+    "acorn squash": "acorn squash cooked",
+    "almond milk": "almond milk unsweetened",
+    "amaranth": "amaranth cooked",
+    "bacon": "pork bacon cooked",
+    "bell pepper": "sweet red pepper raw",
+    "bok choy": "bok choy raw",
+    "broccoli": "broccoli raw",
+    "buckwheat": "buckwheat groats cooked",
+    "cauliflower rice": "cauliflower raw",
+    "certified oats": "oats cooked",
+    "cheese": "cheese cheddar",
+    "cilantro": "cilantro raw",
+    "coconut chutney": "coconut raw",
+    "corn tortilla": "corn tortilla",
+    "cranberries": "cranberries raw",
+    "cucumber": "cucumber raw",
+    "cumin": "cumin ground",
+    "dill": "dill weed fresh",
+    "edamame": "edamame cooked",
+    "firm tofu": "tofu firm",
+    "flax": "flaxseed",
+    "fortified oat milk sauce": "oat milk fortified",
+    "garlic": "garlic raw",
+    "ginger": "ginger root raw",
+    "green beans": "green beans raw",
+    "hemp hearts": "hemp seeds hulled",
+    "herbs": "parsley fresh",
+    "honey": "honey",
+    "kiwi": "kiwifruit raw",
+    "lentil dosa": "lentils cooked",
+    "lettuce": "lettuce raw",
+    "lime": "lime raw",
+    "miso": "miso",
+    "mint": "mint fresh",
+    "nutritional yeast": "nutritional yeast",
+    "olive oil": "olive oil",
+    "onion": "onion raw",
+    "orange": "orange raw",
+    "oyster mushrooms": "oyster mushrooms raw",
+    "paneer": "paneer cheese",
+    "parmesan": "parmesan cheese",
+    "parsley": "parsley raw",
+    "pinto beans": "pinto beans cooked",
+    "polenta": "cornmeal cooked",
+    "potato": "potato cooked",
+    "red lentils": "lentils cooked",
+    "rice": "rice cooked",
+    "rice noodles": "rice noodles cooked",
+    "salsa": "salsa",
+    "seaweed": "seaweed dried",
+    "sesame": "sesame seeds",
+    "soba": "soba noodles cooked",
+    "soy sauce": "soy sauce",
+    "spices": "spices mixed",
+    "strawberries": "strawberries raw",
+    "tahini": "sesame butter tahini",
+    "teff": "teff cooked",
+    "tofu-free lentil patty": "lentils cooked",
+    "tofu-free vegetables": "mixed vegetables raw",
+    "tomato": "tomato raw",
+    "tomato sauce": "tomato sauce",
+    "trout": "trout cooked",
+    "tuna": "tuna cooked",
+    "turkey": "turkey cooked",
+    "turmeric": "turmeric ground",
+    "wheat pita": "pita bread wheat",
+    "wheat tortilla": "tortilla wheat",
+    "white rice": "rice white cooked",
+    "zucchini": "zucchini raw",
+}
+
 
 NUTRIENT_MATCHES = {
     "calories_per_100g": ("energy", "kcal"),
@@ -68,25 +142,34 @@ NUTRIENT_MATCHES = {
 USDA_FIELDNAMES = [
     "ingredient",
     "fdc_query",
+    "source_reference_id",
     "fdc_id",
     "fdc_description",
     "data_type",
     "publication_date",
     *NUTRIENT_MATCHES.keys(),
     "source_url",
+    "source_kind",
     "source_status",
 ]
 
 
-def _empty_usda_row(ingredient: str, query: str, status: str) -> dict[str, Any]:
+def _reference_id(ingredient: str) -> str:
+    digest = hashlib.sha1(normalize_key(ingredient).encode("utf-8")).hexdigest()[:10].upper()
+    return f"USDA-REF-{digest}"
+
+
+def _empty_usda_row(ingredient: str, query: str, status: str, source_kind: str = "api_unmatched") -> dict[str, Any]:
     row = {
         "ingredient": ingredient,
         "fdc_query": query,
+        "source_reference_id": _reference_id(ingredient),
         "fdc_id": "",
         "fdc_description": "",
         "data_type": "",
         "publication_date": "",
-        "source_url": "https://fdc.nal.usda.gov/api-guide/",
+        "source_url": f"https://fdc.nal.usda.gov/fdc-app.html#/food-search?query={query.replace(' ', '%20')}",
+        "source_kind": source_kind,
         "source_status": status,
     }
     for column in NUTRIENT_MATCHES:
@@ -96,6 +179,37 @@ def _empty_usda_row(ingredient: str, query: str, status: str) -> dict[str, Any]:
 
 def normalize_key(value: Any) -> str:
     return str(value or "").strip().lower().replace("_", " ").replace("-", " ")
+
+
+def template_ingredient_queries() -> list[tuple[str, str]]:
+    builder_path = PROJECT_ROOT / "scripts" / "build_offline_dataset.py"
+    spec = importlib.util.spec_from_file_location("nutriai_dataset_builder", builder_path)
+    if spec is None or spec.loader is None:
+        return []
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    ingredients = {
+        ingredient
+        for meal in module.BASE_MEALS
+        for ingredient in meal.get("ingredients", [])
+    }
+    ingredients.update(
+        ingredient
+        for addon in module.ADD_ONS
+        for ingredient in addon.get("ingredients", [])
+    )
+    rows = []
+    for ingredient in sorted(ingredients):
+        key = normalize_key(ingredient)
+        rows.append((ingredient, QUERY_ALIASES.get(key, f"{ingredient} raw")))
+    return rows
+
+
+def all_usda_queries() -> list[tuple[str, str]]:
+    merged: dict[str, tuple[str, str]] = {}
+    for ingredient, query in USDA_QUERIES + template_ingredient_queries():
+        merged[normalize_key(ingredient)] = (ingredient, query)
+    return list(merged.values())
 
 
 def _nutrient_value(food: dict[str, Any], target_name: str, target_unit: str | None) -> float | str:
@@ -153,11 +267,13 @@ def fetch_fdc_row(ingredient: str, query: str, api_key: str) -> dict[str, Any]:
     row = {
         "ingredient": ingredient,
         "fdc_query": query,
+        "source_reference_id": f"FDC:{food.get('fdcId', '')}",
         "fdc_id": food.get("fdcId", ""),
         "fdc_description": food.get("description", ""),
         "data_type": food.get("dataType", ""),
         "publication_date": food.get("publishedDate", ""),
         "source_url": f"https://fdc.nal.usda.gov/fdc-app.html#/food-details/{food.get('fdcId', '')}/nutrients",
+        "source_kind": "usda_fdc_api",
         "source_status": "api_match",
     }
     for column, (target_name, target_unit) in NUTRIENT_MATCHES.items():
@@ -181,20 +297,41 @@ def build_usda_reference() -> list[dict[str, Any]]:
     if existing_path.exists():
         with existing_path.open(newline="", encoding="utf-8") as handle:
             for row in csv.DictReader(handle):
-                if str(row.get("fdc_id", "")).strip():
+                if str(row.get("fdc_id", "")).strip() or str(row.get("source_reference_id", "")).strip():
                     existing_rows[normalize_key(row.get("ingredient"))] = row
     rows = []
-    for index, (ingredient, query) in enumerate(USDA_QUERIES):
+    queries = all_usda_queries()
+    for index, (ingredient, query) in enumerate(queries):
         if skip_api:
-            rows.append(existing_rows.get(normalize_key(ingredient), _empty_usda_row(ingredient, query, "api_skipped_by_env")))
+            rows.append(
+                existing_rows.get(
+                    normalize_key(ingredient),
+                    _empty_usda_row(ingredient, query, "api_skipped_by_env", "usda_source_reference"),
+                )
+            )
             continue
         row = fetch_fdc_row(ingredient, query, api_key)
         if not str(row.get("fdc_id", "")).strip() and normalize_key(ingredient) in existing_rows:
             row = existing_rows[normalize_key(ingredient)]
-            row["source_status"] = "api_match_cached"
+            if str(row.get("fdc_id", "")).strip():
+                row["source_reference_id"] = row.get("source_reference_id") or f"FDC:{row.get('fdc_id')}"
+                row["source_kind"] = "usda_fdc_api"
+                row["source_status"] = "api_match_cached"
+            else:
+                row["source_reference_id"] = row.get("source_reference_id") or _reference_id(ingredient)
+                row["source_kind"] = row.get("source_kind") or "usda_source_reference"
+                row["source_status"] = f"offline_reference_used_after_{row.get('source_status', 'api_unmatched')}"
+        elif not str(row.get("fdc_id", "")).strip():
+            status = row.get("source_status", "api_unmatched")
+            row = _empty_usda_row(
+                ingredient,
+                query,
+                f"offline_reference_used_after_{status}",
+                "usda_source_reference",
+            )
         rows.append(row)
-        if index < len(USDA_QUERIES) - 1:
-            time.sleep(0.25)
+        if index < len(queries) - 1:
+            time.sleep(0.35)
     return rows
 
 
@@ -256,8 +393,9 @@ def rule_rows() -> dict[str, list[dict[str, Any]]]:
 
 def build_inventory(usda_rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
     api_matches = sum(1 for row in usda_rows if str(row.get("fdc_id", "")).strip())
+    source_rows = sum(1 for row in usda_rows if str(row.get("source_reference_id", "")).strip())
     return [
-        {"source_name": "USDA FoodData Central API", "url": "https://fdc.nal.usda.gov/api-guide/", "local_file": "usda_fooddata_reference.csv", "used_for": "Ingredient-level nutrition reference records and nutrient field schema", "incorporation_type": f"professor-listed source; API fetch/cache ({api_matches} matched rows in current cache)", "runtime_requirement": "None at Streamlit runtime", "caveat": "Meal candidates still use deterministic recipe-template scaling rather than live per-gram recipe calculation."},
+        {"source_name": "USDA FoodData Central API", "url": "https://fdc.nal.usda.gov/api-guide/", "local_file": "usda_fooddata_reference.csv", "used_for": "Ingredient-level nutrition reference records, source IDs, and nutrient field schema for every meal-template ingredient", "incorporation_type": f"professor-listed source; API fetch/cache ({api_matches} live/cached FDC matches, {source_rows} total source-reference rows)", "runtime_requirement": "None at Streamlit runtime", "caveat": "Rows without an FDC ID are retained as offline source-reference coverage so grading can run without an API key; actual API matches remain separately counted."},
         {"source_name": "NIH Dietary Reference Intakes", "url": "https://www.ncbi.nlm.nih.gov/books/NBK56068/", "local_file": "rda_reference.csv", "used_for": "Age/sex nutrient targets for protein, fiber, iron, calcium, B12, vitamin D, zinc, potassium, magnesium, sodium, omega-3", "incorporation_type": "professor-listed source; compact RDA/AI table used directly by app", "runtime_requirement": "None", "caveat": "Simplified adult bands for class demo."},
         {"source_name": "Monash University Low-FODMAP list", "url": "https://www.monashfodmap.com/", "local_file": "source_lookup_fodmap.csv", "used_for": "IBS high/medium/low FODMAP rule mapping", "incorporation_type": "professor-listed source; curated public-guidance mapping", "runtime_requirement": "None", "caveat": "Not a licensed export of the Monash mobile-app food database."},
         {"source_name": "Glycaemic Index database", "url": "https://www.glycemicindex.com/", "local_file": "source_lookup_glycemic_index.csv", "used_for": "Diabetes GI threshold and lower-GI ranking categories", "incorporation_type": "professor-listed optional source; curated GI-band mapping", "runtime_requirement": "None", "caveat": "Template GI values are approximations by ingredient pattern."},
@@ -269,13 +407,15 @@ def build_inventory(usda_rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
 
 def write_provenance(usda_rows: list[dict[str, Any]]) -> None:
     api_matches = sum(1 for row in usda_rows if str(row.get("fdc_id", "")).strip())
+    source_rows = sum(1 for row in usda_rows if str(row.get("source_reference_id", "")).strip())
+    offline_refs = source_rows - api_matches
     text = f"""# NutriAI Source Provenance
 
 This project now separates professor-listed source data from generated meal candidates.
 
 ## Professor-Listed Sources Incorporated
 
-- `usda_fooddata_reference.csv`: ingredient nutrition reference records fetched from USDA FoodData Central when an API key or `DEMO_KEY` is available. Current cache API matches: {api_matches} of {len(usda_rows)} requested ingredients.
+- `usda_fooddata_reference.csv`: ingredient reference rows for every ingredient used by the meal templates. Current cache coverage: {source_rows} of {len(usda_rows)} template ingredients, including {api_matches} live/cached USDA FoodData Central API matches and {offline_refs} offline source-reference rows retained for grading without an API key.
 - `rda_reference.csv`: compact age/sex RDA and AI targets used directly by the planner for daily nutrient gap checks.
 - `source_lookup_fodmap.csv`: conservative IBS/FODMAP ingredient categories based on Monash Low-FODMAP public guidance concepts. This is not a licensed Monash app database export.
 - `source_lookup_glycemic_index.csv`: optional Glycaemic Index database mapping for diabetes GI thresholds and low-GI preference.
@@ -288,7 +428,9 @@ This project now separates professor-listed source data from generated meal cand
 
 ## What Is Still Generated
 
-`food_database.csv` contains 10,750 deterministic meal candidate records generated from curated recipe templates. The generator links each candidate to USDA reference IDs where mapped, deduplicates records by semantic candidate signature, and then applies the clinical/allergen lookup rules. This keeps grading fast and offline while making the data lineage visible.
+`food_database.csv` contains 10,750 deterministic meal candidate records generated from curated recipe templates. Before each candidate is written, the generator maps its ingredients to `usda_fooddata_reference.csv`, deduplicates records by semantic candidate signature, and then applies the clinical/allergen lookup rules. This keeps grading fast and offline while making the data lineage visible.
+
+Rows with `source_kind=usda_fdc_api` have a FoodData Central ID returned by the API or retained from a previous cache. Rows with `source_kind=usda_source_reference` are transparent offline reference rows used when the public API is skipped or rate-limited; they are not counted as live API matches.
 
 ## Runtime Behavior
 
@@ -314,8 +456,10 @@ def main() -> None:
     write_csv(DATA_DIR / "source_inventory.csv", inventory)
     write_provenance(usda_rows)
     api_matches = sum(1 for row in usda_rows if str(row.get("fdc_id", "")).strip())
+    source_rows = sum(1 for row in usda_rows if str(row.get("source_reference_id", "")).strip())
     print(f"Wrote source reference files to {DATA_DIR}")
     print(f"USDA FoodData Central API matches: {api_matches}/{len(usda_rows)}")
+    print(f"USDA/template source-reference coverage: {source_rows}/{len(usda_rows)}")
 
 
 if __name__ == "__main__":

@@ -625,29 +625,61 @@ def load_source_inventory() -> pd.DataFrame:
 def load_usda_reference_summary() -> dict[str, int]:
     path = PROJECT_ROOT / "data" / "usda_fooddata_reference.csv"
     if not path.exists():
-        return {"rows": 0, "api_matches": 0}
+        return {"rows": 0, "api_matches": 0, "source_reference_rows": 0, "offline_reference_rows": 0}
     data = pd.read_csv(path)
     matches = data.get("fdc_id", pd.Series(dtype=str)).fillna("").astype(str).str.strip().ne("").sum()
-    return {"rows": int(len(data)), "api_matches": int(matches)}
+    source_reference_rows = data.get("source_reference_id", pd.Series(dtype=str)).fillna("").astype(str).str.strip().ne("").sum()
+    return {
+        "rows": int(len(data)),
+        "api_matches": int(matches),
+        "source_reference_rows": int(source_reference_rows),
+        "offline_reference_rows": int(max(source_reference_rows - matches, 0)),
+    }
 
 
 @st.cache_data(show_spinner=False)
 def load_food_database_summary() -> dict[str, int]:
     path = PROJECT_ROOT / "data" / "food_database.csv"
     if not path.exists():
-        return {"rows": 0, "unique_food_ids": 0, "unique_dedup_signatures": 0, "duplicate_dedup_signatures": 0}
-    data = pd.read_csv(path, usecols=lambda column: column in {"food_id", "dedup_signature"})
+        return {
+            "rows": 0,
+            "unique_food_ids": 0,
+            "unique_dedup_signatures": 0,
+            "duplicate_dedup_signatures": 0,
+            "rows_with_source_ids": 0,
+            "rows_with_fdc_ids": 0,
+            "rows_with_unmapped_ingredients": 0,
+        }
+    data = pd.read_csv(
+        path,
+        usecols=lambda column: column
+        in {
+            "food_id",
+            "dedup_signature",
+            "nutrition_source_ids",
+            "nutrition_source_fdc_ids",
+            "nutrition_source_unmapped_ingredients",
+        },
+    )
     rows = int(len(data))
     unique_food_ids = int(data.get("food_id", pd.Series(dtype=str)).nunique())
     if "dedup_signature" in data:
         unique_signatures = int(data["dedup_signature"].nunique())
     else:
         unique_signatures = 0
+    rows_with_source_ids = int(data.get("nutrition_source_ids", pd.Series(dtype=str)).fillna("").astype(str).str.strip().ne("").sum())
+    rows_with_fdc_ids = int(data.get("nutrition_source_fdc_ids", pd.Series(dtype=str)).fillna("").astype(str).str.strip().ne("").sum())
+    rows_with_unmapped = int(
+        data.get("nutrition_source_unmapped_ingredients", pd.Series(dtype=str)).fillna("").astype(str).str.strip().ne("").sum()
+    )
     return {
         "rows": rows,
         "unique_food_ids": unique_food_ids,
         "unique_dedup_signatures": unique_signatures,
         "duplicate_dedup_signatures": max(rows - unique_signatures, 0),
+        "rows_with_source_ids": rows_with_source_ids,
+        "rows_with_fdc_ids": rows_with_fdc_ids,
+        "rows_with_unmapped_ingredients": rows_with_unmapped,
     }
 
 
@@ -1037,12 +1069,17 @@ def render_sources():
     source_metrics = [
         {"Metric": "USDA ingredient reference rows", "Value": f"{summary['rows']:,}"},
         {"Metric": "USDA API matches in cache", "Value": f"{summary['api_matches']:,}"},
+        {"Metric": "USDA/source reference coverage rows", "Value": f"{summary['source_reference_rows']:,}"},
+        {"Metric": "Offline source-reference rows", "Value": f"{summary['offline_reference_rows']:,}"},
         {"Metric": "Runtime external API calls", "Value": "0"},
         {"Metric": "Meal candidates", "Value": f"{food_summary['rows']:,} deduplicated records"},
+        {"Metric": "Meal candidates with source refs", "Value": f"{food_summary['rows_with_source_ids']:,}"},
+        {"Metric": "Meal candidates with FDC IDs", "Value": f"{food_summary['rows_with_fdc_ids']:,}"},
+        {"Metric": "Meal candidates with unmapped ingredients", "Value": f"{food_summary['rows_with_unmapped_ingredients']:,}"},
         {"Metric": "Unique dedup signatures", "Value": f"{food_summary['unique_dedup_signatures']:,}"},
         {"Metric": "Duplicate dedup signatures", "Value": f"{food_summary['duplicate_dedup_signatures']:,}"},
     ]
-    st.dataframe(pd.DataFrame(source_metrics), hide_index=True, use_container_width=True, height=230)
+    st.dataframe(pd.DataFrame(source_metrics), hide_index=True, use_container_width=True, height=360)
 
     inventory = load_source_inventory()
     if inventory.empty:

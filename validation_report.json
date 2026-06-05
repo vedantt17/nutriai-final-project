@@ -6,24 +6,37 @@
     "unique_dedup_signatures": 10750,
     "duplicate_dedup_signatures": 0
   },
+  "source_traceability": {
+    "usda_reference_rows": 97,
+    "usda_api_matches": 10,
+    "usda_source_reference_rows": 97,
+    "meal_rows_with_source_ids": 10750,
+    "meal_rows_with_fdc_ids": 9506,
+    "meal_rows_with_unmapped_ingredients": 0,
+    "source_confidence_counts": {
+      "usda_hybrid_reference_mapped": 9448,
+      "usda_source_reference_mapped": 1244,
+      "usda_fdc_api_mapped": 58
+    }
+  },
   "personas": [
     {
       "persona": "Priya",
-      "generation_time_sec": 7.2833,
+      "generation_time_sec": 2.4517,
       "diversity_score": 100.0,
       "benchmarks": {
-        "safe_filter_seconds": 3.3294,
+        "safe_filter_seconds": 1.3534,
         "total_records": 10750,
         "safe_records": 4132,
         "excluded_records": 6618,
         "bloom_filter_hashes": 6,
         "bloom_filter_bits": 95,
-        "embedding_seconds": 0.0112,
+        "embedding_seconds": 0.0048,
         "embedding_dimensions": 160,
-        "index_build_seconds": 1.5971,
+        "index_build_seconds": 2.3783,
         "candidate_vectors_scored": 4132,
-        "ranking_seconds": 3.9104,
-        "total_generation_seconds": 7.2833,
+        "ranking_seconds": 1.0568,
+        "total_generation_seconds": 2.4517,
         "techniques": [
           "Bloom filter allergen sketching",
           "Dense hashed embeddings",
@@ -59,7 +72,7 @@
         {
           "capability": "Sub-60-Second Generation",
           "status": "PASS",
-          "evidence": "Generation completed in 7.283 seconds over 10750 offline records."
+          "evidence": "Generation completed in 2.452 seconds over 10750 offline records."
         }
       ],
       "daily_warnings": {
@@ -74,21 +87,21 @@
     },
     {
       "persona": "Ravi",
-      "generation_time_sec": 11.2235,
+      "generation_time_sec": 3.1543,
       "diversity_score": 100.0,
       "benchmarks": {
-        "safe_filter_seconds": 4.2163,
+        "safe_filter_seconds": 1.291,
         "total_records": 10750,
         "safe_records": 6061,
         "excluded_records": 4689,
         "bloom_filter_hashes": 6,
         "bloom_filter_bits": 76,
-        "embedding_seconds": 0.0067,
+        "embedding_seconds": 0.0031,
         "embedding_dimensions": 160,
-        "index_build_seconds": 1.5971,
+        "index_build_seconds": 2.3783,
         "candidate_vectors_scored": 6061,
-        "ranking_seconds": 6.9739,
-        "total_generation_seconds": 11.2235,
+        "ranking_seconds": 1.8476,
+        "total_generation_seconds": 3.1543,
         "techniques": [
           "Bloom filter allergen sketching",
           "Dense hashed embeddings",
@@ -124,7 +137,7 @@
         {
           "capability": "Sub-60-Second Generation",
           "status": "PASS",
-          "evidence": "Generation completed in 11.223 seconds over 10750 offline records."
+          "evidence": "Generation completed in 3.154 seconds over 10750 offline records."
         }
       ],
       "daily_warnings": {
@@ -139,21 +152,21 @@
     },
     {
       "persona": "Mei",
-      "generation_time_sec": 8.6604,
+      "generation_time_sec": 2.4257,
       "diversity_score": 100.0,
       "benchmarks": {
-        "safe_filter_seconds": 5.2846,
+        "safe_filter_seconds": 1.5722,
         "total_records": 10750,
         "safe_records": 3483,
         "excluded_records": 7267,
         "bloom_filter_hashes": 6,
         "bloom_filter_bits": 134,
-        "embedding_seconds": 0.0063,
+        "embedding_seconds": 0.0028,
         "embedding_dimensions": 160,
-        "index_build_seconds": 1.5971,
+        "index_build_seconds": 2.3783,
         "candidate_vectors_scored": 3483,
-        "ranking_seconds": 3.3438,
-        "total_generation_seconds": 8.6604,
+        "ranking_seconds": 0.8401,
+        "total_generation_seconds": 2.4257,
         "techniques": [
           "Bloom filter allergen sketching",
           "Dense hashed embeddings",
@@ -189,7 +202,7 @@
         {
           "capability": "Sub-60-Second Generation",
           "status": "PASS",
-          "evidence": "Generation completed in 8.660 seconds over 10750 offline records."
+          "evidence": "Generation completed in 2.426 seconds over 10750 offline records."
         }
       ],
       "daily_warnings": {
@@ -204,21 +217,21 @@
     },
     {
       "persona": "James",
-      "generation_time_sec": 14.0279,
+      "generation_time_sec": 3.2462,
       "diversity_score": 100.0,
       "benchmarks": {
-        "safe_filter_seconds": 5.4454,
+        "safe_filter_seconds": 1.3273,
         "total_records": 10750,
         "safe_records": 6674,
         "excluded_records": 4076,
         "bloom_filter_hashes": 6,
         "bloom_filter_bits": 95,
-        "embedding_seconds": 0.0086,
+        "embedding_seconds": 0.0032,
         "embedding_dimensions": 160,
-        "index_build_seconds": 1.5971,
+        "index_build_seconds": 2.3783,
         "candidate_vectors_scored": 6674,
-        "ranking_seconds": 8.5377,
-        "total_generation_seconds": 14.0279,
+        "ranking_seconds": 1.902,
+        "total_generation_seconds": 3.2462,
         "techniques": [
           "Bloom filter allergen sketching",
           "Dense hashed embeddings",
@@ -254,7 +267,7 @@
         {
           "capability": "Sub-60-Second Generation",
           "status": "PASS",
-          "evidence": "Generation completed in 14.028 seconds over 10750 offline records."
+          "evidence": "Generation completed in 3.246 seconds over 10750 offline records."
         }
       ],
       "daily_warnings": {

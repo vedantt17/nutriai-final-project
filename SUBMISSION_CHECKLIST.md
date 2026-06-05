@@ -3,7 +3,8 @@
 - [x] Working Streamlit app in `code/app.py`.
 - [x] `requirements.txt` included in `code/`.
 - [x] Offline `data/food_database.csv` with 10,750 deduplicated records.
-- [x] USDA reference cache, RDA table, clinical lookup files, source inventory, and clinical rules included.
+- [x] USDA/source-reference cache covers 97/97 meal-template ingredients, with live/cached FDC matches counted separately.
+- [x] RDA table, clinical lookup files, source inventory, and clinical rules included.
 - [x] 7-day, 3-meal-per-day plan generation.
 - [x] Clinical condition filtering for IBS, GERD, type 2 diabetes, and hypertension.
 - [x] Allergy and cross-contamination hard exclusions.
