@@ -26,7 +26,7 @@ class NutriAITestCase(unittest.TestCase):
 
     def test_offline_dataset_is_grading_sized(self):
         foods = self.planner.foods
-        self.assertGreaterEqual(len(foods), 10000)
+        self.assertGreaterEqual(len(foods), 10750)
         self.assertEqual(foods["food_id"].nunique(), len(foods))
         self.assertEqual(foods["meal_name"].nunique(), len(foods))
         self.assertGreaterEqual(foods["meal_type"].nunique(), 3)

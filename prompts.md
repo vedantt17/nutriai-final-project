@@ -135,7 +135,7 @@ This prompt drove the lighter professional visual design, sidebar layout, dashbo
 Act as a senior tester and debugger for the NutriAI project. Review the implementation for functional errors, hidden rubric gaps, stale state issues, safety failures, data leakage, and deployment problems.
 
 Create and run tests that verify:
-- The meal database has at least 10,000 records.
+- The meal database has 10,750 records.
 - The generated candidate table has unique food IDs and zero duplicate semantic deduplication signatures.
 - The required source/provenance columns exist.
 - USDA reference data is present and linked where available.
